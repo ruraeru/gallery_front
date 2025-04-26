@@ -1,0 +1,8 @@
+.button {
+  height: 3rem;
+  &:disabled {
+    background-color: rgb(163 163 163);
+    color: rgb(212 212 212);
+    cursor: not-allowed;
+  }
+}
