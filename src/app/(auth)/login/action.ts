@@ -1,26 +1,31 @@
+"use server";
+
 import axios from "axios";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { LoginState } from "./page";
+import getSession from "@/lib/session";
 
 const loginSchema = z.object({
   username: z
     .string()
     .trim()
-    .min(1, "username을 입력해주세요")
-    .regex(/^[A-Za-z0-9]*$/, "영어와 숫자만 입력해주세요."),
+    .min(1, "아이디를 입력해주세요")
+    .regex(/^[A-Za-z0-9]*$/, "아이디는 영어와 숫자만 입력 가능합니다."),
   password: z.string().trim().min(1, "password를 입력해주세요"),
 });
 
 interface UserResponseDataType {
   success: boolean;
   error?: string;
+  data: {
+    id: string;
+    username: string;
+  };
 }
 
 interface UserResponseType {
-  response: {
-    data: UserResponseDataType;
-  };
+  data: UserResponseDataType;
 }
 
 const createUser = async (id: string, password: string) => {
@@ -33,12 +38,13 @@ const createUser = async (id: string, password: string) => {
         password,
       }
     );
-    return res.response.data;
+    return res.data;
   } catch (error: any) {
     console.error("API Error: ", error.response?.data?.error || error.message);
     return {
       success: false,
       error: error.response?.data?.error || "회원가입에 실패했습니다.",
+      data: { id: "", username: "" },
     };
   }
 };
@@ -61,8 +67,12 @@ export async function login(prevState: LoginState, formData: FormData) {
     result.data.password
   );
 
+  console.log("API RESULT", apiResult);
   if (apiResult.success) {
-    redirect("/");
+    const session = await getSession();
+    session.id = parseInt(apiResult.data.id);
+    await session.save();
+    return redirect("/");
   } else {
     return {
       errors: {
