@@ -4,7 +4,11 @@ import { z } from "zod";
 import { LoginState } from "./page";
 
 const loginSchema = z.object({
-  username: z.string().trim().min(1, "username을 입력해주세요"),
+  username: z
+    .string()
+    .trim()
+    .min(1, "username을 입력해주세요")
+    .regex(/^[A-Za-z0-9]*$/, "영어와 숫자만 입력해주세요."),
   password: z.string().trim().min(1, "password를 입력해주세요"),
 });
 
