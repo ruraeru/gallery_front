@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { unstable_cache as nextCache } from "next/cache";
 interface ImageType {
   id: string;
   slug: string;
@@ -37,6 +37,22 @@ export const getImages = async (): Promise<ImageType[]> => {
     "https://api.unsplash.com/photos/?client_id=j89NZZaPslK4CXgXww8ZfXjL8Gnc-hXaVd0O1Z6oU20"
   );
 
-  //   Array. // 배열 길이 늘려
   return res.data;
+};
+
+export const getCahcedImages = nextCache(getImages, ["images"]);
+
+export const getImageByID = async (id: string): Promise<ImageType> => {
+  const res = await axios.get(
+    `https://api.unsplash.com/photos/${id}?client_id=j89NZZaPslK4CXgXww8ZfXjL8Gnc-hXaVd0O1Z6oU20`
+  );
+
+  return res.data;
+};
+
+export const getCahcedImageByID = async (id: string) => {
+  const cachedImage = nextCache(getImageByID, ["image"], {
+    tags: [`image-${id}`],
+  });
+  return cachedImage(id);
 };
