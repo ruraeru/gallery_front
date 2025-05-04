@@ -26,7 +26,7 @@ body {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: -apple-system, Pretendard-Regular, sans-serif;
+  font-family: "Pretendard-Regular", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
