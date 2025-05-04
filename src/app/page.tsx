@@ -23,7 +23,7 @@ export default async function Home() {
               <Image style={{
                 objectFit: "cover",
                 margin: "0 auto",
-              }} src={image.urls.raw} width={160} height={240} priority alt="s" />
+              }} src={image.urls.regular} width={160} height={240} priority alt="s" />
             </div>
           </Link>
         ))}
