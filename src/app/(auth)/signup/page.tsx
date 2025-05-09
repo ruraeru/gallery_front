@@ -1,21 +1,51 @@
+"use client"
+
+import { useActionState } from "react";
 import styles from "./signup.module.css";
+import { createAccount } from "./actions";
+import Input from "@/components/input";
+import Button from "@/components/button";
 
 export default function Page() {
+    const [state, action] = useActionState(createAccount, null);
     return (
         <div className={styles.container}>
             <div className={styles.contents}>
                 <h1>회원가입</h1>
-                <form className={styles.wrapper}>
+                <form action={action} className={styles.wrapper}>
                     <div>
-                        <label htmlFor="username">아이디</label>
-                        <input type="text" id="username" name="username" placeholder="아이디를 입력하세요" />
-                        {/* <span>{state?.fieldErrors.username}</span> */}
+                        <Input
+                            label="아이디"
+                            name="user_id"
+                            type="text"
+                            placeholder="아이디를 입력해주세요."
+                            errors={state?.fieldErrors.user_id}
+                        />
+                        <Input
+                            label="이름"
+                            name="username"
+                            type="text"
+                            placeholder="이름을 입력해주세요."
+                            errors={state?.fieldErrors.username}
+                        />
                     </div>
                     <div>
-                        <label htmlFor="password">패스워드</label>
-                        <input type="password" id="password" name="password" placeholder="패스워드를 입력하세요" />
+                        <Input
+                            label="패스워드"
+                            name="password"
+                            type="password"
+                            placeholder="비밀번호를 입력해주세요."
+                            errors={state?.fieldErrors.password}
+                        />
+                        <Input
+                            label=""
+                            name="confirmPassword"
+                            type="password"
+                            placeholder="비밀번호를 다시 한번 입력해주세요."
+                            errors={state?.fieldErrors.confirmPassword}
+                        />
                     </div>
-                    <button type="submit">로그인</button>
+                    <Button text="로그인" />
                 </form>
             </div>
         </div>

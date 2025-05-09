@@ -10,7 +10,7 @@ datasource db {
 
 model Users {
   id         String   @id
-  username   String   @unique
+  username   String
   password   String
   avatar     String?
   license    Int      @default(1)
