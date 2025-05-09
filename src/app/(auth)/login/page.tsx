@@ -6,15 +6,6 @@ import { login } from "./action";
 import Input from "@/components/input";
 import Button from "@/components/button";
 
-
-// export interface LoginState {
-//     errors?: {
-//         username?: string[];
-//         password?: string[];
-//         form?: string[];
-//     };
-// }
-
 export default function Page() {
     const [state, action] = useActionState(login, null);
     return (
