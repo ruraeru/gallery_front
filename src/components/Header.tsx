@@ -1,6 +1,6 @@
 "use client";
 
-import { logOut } from "@/app/actions";
+import { logOut } from "@/app/(tabs)/(main)/actions";
 import styled from "@emotion/styled";
 import Link from "next/link";
 
@@ -50,26 +50,26 @@ const LogoutButton = styled.button`
 `;
 
 type HeaderProps = {
-    isLogin: boolean;
+  isLogin: boolean;
 };
 
 export default function Header({ isLogin }: HeaderProps) {
-    return (
-        <HeaderContainer>
-            <HeaderMenu>menu</HeaderMenu>
-            <HeaderTitle>모두의 갤러리</HeaderTitle>
-            <HeaderAuth>
-                {!isLogin ? (
-                    <div>
-                        <AuthLink href="/login">login</AuthLink>
-                        <AuthLink href="/signup">signup</AuthLink>
-                    </div>
-                ) : (
-                    <form action={logOut}>
-                        <LogoutButton>logout</LogoutButton>
-                    </form>
-                )}
-            </HeaderAuth>
-        </HeaderContainer>
-    );
+  return (
+    <HeaderContainer>
+      <HeaderMenu>menu</HeaderMenu>
+      <HeaderTitle>모두의 갤러리</HeaderTitle>
+      <HeaderAuth>
+        {!isLogin ? (
+          <div>
+            <AuthLink href="/login">login</AuthLink>
+            <AuthLink href="/signup">signup</AuthLink>
+          </div>
+        ) : (
+          <form action={logOut}>
+            <LogoutButton>logout</LogoutButton>
+          </form>
+        )}
+      </HeaderAuth>
+    </HeaderContainer>
+  );
 }
