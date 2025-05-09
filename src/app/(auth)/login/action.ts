@@ -1,83 +1,68 @@
 "use server";
 
-import axios from "axios";
-import { redirect } from "next/navigation";
+import db from "@/lib/db";
 import { z } from "zod";
-import { LoginState } from "./page";
+import bcrypt from "bcrypt";
 import getSession from "@/lib/session";
+import { redirect } from "next/navigation";
+
+const checkUserExists = async (id: string) => {
+  const user = await db.users.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      id: true,
+    },
+  });
+  return Boolean(user);
+};
 
 const loginSchema = z.object({
-  username: z
+  user_id: z
     .string()
     .trim()
     .min(1, "아이디를 입력해주세요")
-    .regex(/^[A-Za-z0-9]*$/, "아이디는 영어와 숫자만 입력 가능합니다."),
+    .regex(/^[A-Za-z0-9]*$/, "아이디는 영어와 숫자만 입력 가능합니다.")
+    .refine(checkUserExists, "존재하지 않는 아이디입니다."),
   password: z.string().trim().min(1, "password를 입력해주세요"),
 });
 
-interface UserResponseDataType {
-  success: boolean;
-  error?: string;
-  data: {
-    id: string;
-    username: string;
-  };
-}
-
-interface UserResponseType {
-  data: UserResponseDataType;
-}
-
-const createUser = async (id: string, password: string) => {
-  try {
-    const res: UserResponseType = await axios.post(
-      `http://localhost:3001/api/users`,
-      {
-        id,
-        username: id,
-        password,
-      }
-    );
-    return res.data;
-  } catch (error: any) {
-    console.error("API Error: ", error.response?.data?.error || error.message);
-    return {
-      success: false,
-      error: error.response?.data?.error || "회원가입에 실패했습니다.",
-      data: { id: "", username: "" },
-    };
-  }
-};
-
-export async function login(prevState: LoginState, formData: FormData) {
+export async function login(prevState: unknown, formData: FormData) {
   const data = {
-    username: formData.get("username"),
+    user_id: formData.get("user_id"),
     password: formData.get("password"),
   };
-
-  const result = loginSchema.safeParse(data);
-
+  const result = await loginSchema.spa(data);
   if (!result.success) {
-    return {
-      errors: result.error.flatten().fieldErrors,
-    };
-  }
-  const apiResult = await createUser(
-    result.data.username,
-    result.data.password
-  );
-
-  console.log("API RESULT", apiResult);
-  if (apiResult.success) {
-    const session = await getSession();
-    session.id = parseInt(apiResult.data.id);
-    await session.save();
-    return redirect("/");
+    return result.error.flatten();
   } else {
-    return {
-      errors: {
-        form: [apiResult.error || "로그인 처리 중 오류가 발생했습니다."],
+    const user = await db.users.findUnique({
+      where: {
+        id: result.data.user_id,
       },
-    };
+      select: {
+        id: true,
+        password: true,
+      },
+    });
+
+    const ok = await bcrypt.compare(
+      result.data.password,
+      user?.password ?? "xx"
+    );
+    if (ok) {
+      const session = await getSession();
+      session.id = user!.id;
+      await session.save();
+      redirect("/");
+    } else {
+      return {
+        fieldErrors: {
+          password: ["비밀번호가 맞지 않습니다."],
+          user_id: [],
+        },
+      };
+    }
   }
 }

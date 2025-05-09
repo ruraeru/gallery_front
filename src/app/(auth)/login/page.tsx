@@ -7,30 +7,28 @@ import Input from "@/components/input";
 import Button from "@/components/button";
 
 
-export interface LoginState {
-    errors?: {
-        username?: string[];
-        password?: string[];
-        form?: string[];
-    };
-}
+// export interface LoginState {
+//     errors?: {
+//         username?: string[];
+//         password?: string[];
+//         form?: string[];
+//     };
+// }
 
 export default function Page() {
-    const [state, action] = useActionState<LoginState, FormData>(login, {
-        errors: {}
-    });
+    const [state, action] = useActionState(login, null);
     return (
         <div className={styles.container}>
             <div className={styles.contents}>
                 <h1>로그인</h1>
                 <form action={action} className={styles.wrapper}>
                     <Input
-                        name="username"
+                        name="user_id"
                         label="아이디"
                         type="text"
                         placeholder="아이디를 입력하세요"
                         required
-                        errors={state?.errors?.username}
+                        errors={state?.fieldErrors?.user_id}
                     />
                     <Input
                         name="password"
@@ -38,13 +36,8 @@ export default function Page() {
                         type="password"
                         placeholder="비밀번호를 입력해주세요"
                         required
-                        errors={state?.errors?.password}
+                        errors={state?.fieldErrors?.password}
                     />
-                    {state.errors?.form && (
-                        <div>
-                            {state.errors.form[0]}
-                        </div>
-                    )}
                     <Button text="로그인" />
                 </form>
             </div>
