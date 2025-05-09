@@ -1,6 +1,6 @@
-import RootStyleRegistry from '@/lib/emotion';
 import { Metadata } from "next";
 import GlobalStyles from '@/components/GlobalStyles';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: "Gallery App",
@@ -15,10 +15,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <RootStyleRegistry>
+        <Suspense>
           <GlobalStyles />
           {children}
-        </RootStyleRegistry>
+        </Suspense>
       </body>
     </html>
   );
