@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AddButton from "@/components/AddButton";
 import Banner from "@/components/posts/Banner";
-import ImageCard from "@/components/posts/ImageCard";
+import ImageCard from "@/components/posts/PostCard";
 
 const containerStyle = {
   position: "relative",

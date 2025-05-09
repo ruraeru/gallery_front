@@ -48,7 +48,7 @@ const CardUserLink = styled(Link)`
   }
 `;
 
-function ImageCardContent({ post }: { post: Post }) {
+function PostCardContent({ post }: { post: Post }) {
   return (
     <ImageCardContainer>
       <Link href={`/posts/${post?.id}`}>
@@ -69,10 +69,10 @@ function ImageCardContent({ post }: { post: Post }) {
   );
 }
 
-export default function ImageCard(props: { post: Post }) {
+export default function PostCard(props: { post: Post }) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <ImageCardContent {...props} />
+      <PostCardContent {...props} />
     </Suspense>
   );
 }
