@@ -1,5 +1,5 @@
 import Detail from "@/components/imageDtail";
-import { getCachedPostByID } from "@/lib/getPosts";
+import { getCachedPostByID } from "@/service/postService";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 

@@ -1,5 +1,5 @@
+import db from "@/lib/db";
 import { unstable_cache as nextCache } from "next/cache";
-import db from "./db";
 
 export const getPosts = async () => {
   const posts = await db.post.findMany({

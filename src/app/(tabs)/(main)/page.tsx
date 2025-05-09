@@ -1,10 +1,10 @@
 import getSession from "@/lib/session";
-import { getPosts } from "@/lib/getPosts";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AddButton from "@/components/AddButton";
 import Banner from "@/components/posts/Banner";
 import ImageCard from "@/components/posts/PostCard";
+import { getPosts } from "@/service/postService";
 
 const containerStyle = {
   position: "relative",
