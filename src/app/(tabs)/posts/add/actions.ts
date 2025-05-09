@@ -43,7 +43,7 @@ export default async function uploadPost(_: unknown, formData: FormData) {
         await fs.mkdir(userFolder, { recursive: true });
 
         const fileExtension = path.extname(data.photo.name);
-        const fileName = `${Date.now()}-${data.title}${fileExtension}`;
+        const fileName = `${Date.now()}-${session.id}${fileExtension}`;
 
         photoPath = path.join(userFolder, fileName);
 

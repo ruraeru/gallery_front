@@ -20,7 +20,6 @@ export const getPosts = async () => {
       },
     },
   });
-  console.log(posts);
   return posts;
 };
 
