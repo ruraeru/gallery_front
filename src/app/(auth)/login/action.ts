@@ -7,7 +7,7 @@ import getSession from "@/lib/session";
 import { redirect } from "next/navigation";
 
 const checkUserExists = async (id: string) => {
-  const user = await db.users.findUnique({
+  const user = await db.user.findUnique({
     where: {
       id,
     },
@@ -37,7 +37,7 @@ export async function login(prevState: unknown, formData: FormData) {
   if (!result.success) {
     return result.error.flatten();
   } else {
-    const user = await db.users.findUnique({
+    const user = await db.user.findUnique({
       where: {
         id: result.data.user_id,
       },

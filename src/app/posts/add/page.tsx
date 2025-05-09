@@ -4,6 +4,8 @@ import Button from "@/components/button";
 import Input from "@/components/input";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { useActionState, useState } from "react";
+import styles from "./addProduct.module.css";
+import uploadPost from "./actions";
 
 export default function AddProduct() {
     const [preview, setPreview] = useState("");
@@ -12,9 +14,9 @@ export default function AddProduct() {
         if (!files) return;
         const file = files[0];
 
-        const allowedFileTypes = ["png", "jpg", "jpeg"];
+        const allowedFileTypes = ["png", "jpg", "jpeg", "HEIC"];
         if (allowedFileTypes.indexOf(file.type.split("/")[1]) === -1) {
-            alert("file upload is only .png, .jpg, .jpeg");
+            alert("file upload is only .png, .jpg, .jpeg .HEIC");
             return;
         }
         if (file.size > 4000000) {
@@ -23,55 +25,49 @@ export default function AddProduct() {
         }
         setPreview(URL.createObjectURL(file));
     }
+    const [state, action] = useActionState(uploadPost, null);
     return (
-        <div>
-            <form className="flex flex-col gap-5 p-5">
+        <div className={styles.container}>
+            <div>
                 <label
                     htmlFor="photo"
-                    className="border-2 aspect-square flex items-center justify-center flex-col text-neutral-300 border-neutral-300 rounded-md border-dashed
-                    cursor-pointer bg-center bg-no-repeat bg-cover"
-                    style={{
-                        backgroundImage: `url(${preview})`
-                    }}
+                    className={`${styles.photoLabel} ${preview ? styles.hasPreview : ''}`}
+                    style={{ backgroundImage: `url(${preview})` }}
                 >
                     {!preview ? (
-                        <>
-                            <PhotoIcon className="w-20" />
-                            <div className="text-neutral-400 text-sm">
+                        <div className={styles.photoPlaceholder}>
+                            <PhotoIcon className={styles.photoIcon} />
+                            <div className={styles.photoText}>
                                 사진을 추가해주세요.
                             </div>
-                        </>
+                        </div>
                     ) : null}
                 </label>
+                <p>*가로 이미지를 업로드 시 이미지가 짤릴 수 있어요!!</p>
+            </div>
+            <form action={action} className={styles.form}>
                 <input
                     onChange={onImageChange}
                     type="file"
                     id="photo"
                     name="photo"
-                    accept="image/*"
-                    className="hidden"
+                    accept="image/jpg,png,jpeg,HEIC"
+                    className={styles.hiddenInput}
                     required
                 />
                 <Input
                     required
                     placeholder="제목"
                     type="text"
-                    name="제목"
                     label="제목"
-                />
-                <Input
-                    required
-                    placeholder="가격"
-                    type="number"
-                    name="제목"
-                    label="제목"
+                    name="title"
                 />
                 <Input
                     type="text"
                     required
                     placeholder="자세한 설명"
-                    name="제목"
-                    label="제목"
+                    name="description"
+                    label="설명"
                 />
                 <Button text="작성 완료" />
             </form>

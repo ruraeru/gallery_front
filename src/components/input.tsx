@@ -1,6 +1,4 @@
 import { ForwardedRef, forwardRef, InputHTMLAttributes } from "react";
-import styles from "../styles/input.module.css";
-
 
 interface InputProps {
     name: string;
@@ -10,7 +8,7 @@ interface InputProps {
 
 const _Input = ({ name, label, errors = [], ...rest }: InputProps & InputHTMLAttributes<HTMLInputElement>, ref: ForwardedRef<HTMLInputElement>) => {
     return (
-        <div className={styles.container}>
+        <div>
             <div>
                 <label htmlFor={name}>{label}</label>
                 <input

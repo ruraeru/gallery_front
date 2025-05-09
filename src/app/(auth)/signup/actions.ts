@@ -22,7 +22,7 @@ const formSchema = z
     confirmPassword: z.string().min(8),
   })
   .superRefine(async ({ user_id }, ctx) => {
-    const user = await db.users.findUnique({
+    const user = await db.user.findUnique({
       where: {
         id: user_id,
       },
@@ -58,7 +58,7 @@ export async function createAccount(prevState: unknown, formData: FormData) {
   } else {
     const hashedPassword = await bcrypt.hash(result.data.password, 12);
 
-    const user = await db.users.create({
+    const user = await db.user.create({
       data: {
         id: result.data.user_id,
         username: result.data.username,
