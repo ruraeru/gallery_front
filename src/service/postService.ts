@@ -3,7 +3,7 @@
 import db from "@/lib/db";
 import { unstable_cache as nextCache } from "next/cache";
 
-export const getAllowedPosts = async () => {
+export const getUnallowedPosts = async () => {
   const posts = await db.post.findMany({
     where: {
       allowed: false,
@@ -24,6 +24,14 @@ export const getAllowedPosts = async () => {
   });
   return posts;
 };
+
+export const getCachedUnallowedPosts = nextCache(
+  getUnallowedPosts,
+  ["un-allowed-posts"],
+  {
+    tags: ["un-allowed-posts"],
+  }
+);
 
 export const getPosts = async () => {
   const posts = await db.post.findMany({
@@ -47,7 +55,10 @@ export const getPosts = async () => {
   return posts;
 };
 
-export const getCahcedPosts = nextCache(getPosts, ["posts"]);
+export const getCahcedPosts = nextCache(getPosts, ["posts"], {
+  tags: ["posts"],
+  revalidate: 10,
+});
 
 export const getPostByID = async (id: number) => {
   const post = await db.post.findUnique({

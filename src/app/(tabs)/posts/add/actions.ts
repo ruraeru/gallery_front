@@ -3,7 +3,7 @@
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import fs from "fs/promises";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import path from "path";
 import { z } from "zod";
@@ -68,7 +68,7 @@ export default async function uploadPost(_: unknown, formData: FormData) {
     } else {
       const { title, description, photo } = result.data;
       if (session.id) {
-        const post = await db.post.create({
+        await db.post.create({
           data: {
             title,
             image: photo,
@@ -83,8 +83,7 @@ export default async function uploadPost(_: unknown, formData: FormData) {
             id: true,
           },
         });
-        console.log(post);
-        revalidatePath("/");
+        revalidateTag("un-allowed-posts");
         redirect("/");
       }
     }
