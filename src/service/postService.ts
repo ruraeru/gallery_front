@@ -61,9 +61,14 @@ export const getCahcedPosts = nextCache(getPosts, ["posts"], {
 });
 
 export const getPostByID = async (id: number) => {
-  const post = await db.post.findUnique({
+  const post = await db.post.update({
     where: {
       id,
+    },
+    data: {
+      views: {
+        increment: 1,
+      },
     },
   });
 
