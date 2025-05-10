@@ -1,6 +1,6 @@
 import { Metadata } from "next";
-import GlobalStyles from '@/components/GlobalStyles';
-import { Suspense } from 'react';
+import { Suspense } from "react";
+import "@/styles/globals.css";
 
 export const metadata: Metadata = {
   title: "Gallery App",
@@ -15,10 +15,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <Suspense>
-          <GlobalStyles />
-          {children}
-        </Suspense>
+        <Suspense>{children}</Suspense>
       </body>
     </html>
   );

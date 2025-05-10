@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import AddButton from "@/components/AddButton";
 import Banner from "@/components/posts/Banner";
 import ImageCard from "@/components/posts/PostCard";
-import { getPosts } from "@/service/postService";
+import { getCahcedPosts } from "@/service/postService";
 
 const containerStyle = {
   position: "relative",
@@ -29,7 +29,7 @@ const imageListStyle = {
 } as const;
 
 export default async function Home() {
-  const posts = await getPosts();
+  const posts = await getCahcedPosts();
   const session = await getSession();
   const isLogin = Boolean(session.id);
 

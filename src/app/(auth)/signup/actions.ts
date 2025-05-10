@@ -66,10 +66,12 @@ export async function createAccount(prevState: unknown, formData: FormData) {
       },
       select: {
         id: true,
+        license: true,
       },
     });
     const session = await getSession();
     session.id = user.id;
+    session.license = user.license;
     await session.save();
     redirect("/");
   }

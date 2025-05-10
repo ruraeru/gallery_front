@@ -1,10 +1,34 @@
+"use server";
+
 import db from "@/lib/db";
 import { unstable_cache as nextCache } from "next/cache";
+
+export const getAllowedPosts = async () => {
+  const posts = await db.post.findMany({
+    where: {
+      allowed: false,
+    },
+    include: {
+      _count: {
+        select: {
+          likes: true,
+          comments: true,
+        },
+      },
+    },
+    orderBy: {
+      likes: {
+        _count: "desc",
+      },
+    },
+  });
+  return posts;
+};
 
 export const getPosts = async () => {
   const posts = await db.post.findMany({
     where: {
-      allowed: false,
+      allowed: true,
     },
     include: {
       _count: {

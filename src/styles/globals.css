@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Pretendard-Regular";
-  src: url("/src/fonts//Pretendard-Regular.ttf");
+  src: url("@/fonts//Pretendard-Regular.ttf");
   font-weight: 400;
   font-style: normal;
 }
@@ -12,8 +12,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ededed;
+    --foreground: #0a0a0a;
   }
 }
 

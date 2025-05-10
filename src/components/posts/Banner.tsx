@@ -1,6 +1,6 @@
 "use client";
 
-import { Post } from "@/lib/getPosts";
+import { Post } from "@/service/postService";
 import styled from "@emotion/styled";
 import Image from "next/image";
 import Link from "next/link";

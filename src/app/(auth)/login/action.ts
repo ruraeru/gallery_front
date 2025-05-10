@@ -44,6 +44,7 @@ export async function login(prevState: unknown, formData: FormData) {
       select: {
         id: true,
         password: true,
+        license: true,
       },
     });
 
@@ -54,6 +55,7 @@ export async function login(prevState: unknown, formData: FormData) {
     if (ok) {
       const session = await getSession();
       session.id = user!.id;
+      session.license = user!.license;
       await session.save();
       redirect("/");
     } else {
