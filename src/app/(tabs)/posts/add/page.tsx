@@ -94,7 +94,7 @@ export default function AddProduct() {
                 <PhotoLabel
                     htmlFor="photo"
                     hasPreview={!!preview}
-                    style={{ backgroundImage: `url(${preview})` }}
+                    style={{ backgroundImage: `url(${preview ? preview : ""})` }}
                 >
                     {!preview ? (
                         <PhotoPlaceholder>
