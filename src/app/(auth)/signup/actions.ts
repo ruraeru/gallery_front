@@ -14,9 +14,15 @@ const checkPassword = ({
   confirmPassword: string;
 }) => password === confirmPassword;
 
+const checkUsername = (username: string) => !username.includes("admin");
+
 const formSchema = z
   .object({
-    user_id: z.string().toLowerCase().trim(),
+    user_id: z
+      .string()
+      .toLowerCase()
+      .trim()
+      .refine(checkUsername, "admin not allowed"),
     username: z.string().toLowerCase().trim(),
     password: z.string().min(8),
     confirmPassword: z.string().min(8),

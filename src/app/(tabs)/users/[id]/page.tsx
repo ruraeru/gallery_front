@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 export default async function UserProfile({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
     const user = await getUser(id);
-    if (!user) {
+    if (!user || user.id.match("admin")) {
         return notFound();
     }
     return (
