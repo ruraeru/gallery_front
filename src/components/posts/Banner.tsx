@@ -1,38 +1,9 @@
 "use client";
 
 import { Post } from "@/service/postService";
-import styled from "@emotion/styled";
 import Image from "next/image";
 import Link from "next/link";
-import { Suspense } from "react";
-
-const BannerContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 16px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-`;
-
-const BannerImages = styled.div`
-  display: flex;
-  gap: 16px;
-  min-width: 0;
-`;
-
-const BannerImageWrapper = styled.div`
-  position: relative;
-  width: 360px;
-  height: 360px;
-  flex-shrink: 0;
-`;
-
-const BannerImage = styled(Image)`
-  object-fit: cover;
-  border-radius: 8px;
-`;
+import styles from "@/styles/Banner.module.css";
 
 type BannerProps = {
   posts: Post[];
@@ -40,12 +11,13 @@ type BannerProps = {
 
 function BannerContent({ posts }: BannerProps) {
   return (
-    <BannerContainer>
-      <BannerImages>
+    <div className={styles.container}>
+      <div className={styles.images}>
         {posts.slice(0, 3).map((post) => (
           <Link href={`/posts/${post?.id}`} key={post?.id}>
-            <BannerImageWrapper>
-              <BannerImage
+            <div className={styles.imageWrapper}>
+              <Image
+                className={styles.image}
                 src={post?.image || ""}
                 fill
                 sizes="360px"
@@ -53,18 +25,12 @@ function BannerContent({ posts }: BannerProps) {
                 quality={90}
                 alt={post?.title || ""}
               />
-            </BannerImageWrapper>
+            </div>
           </Link>
         ))}
-      </BannerImages>
-    </BannerContainer>
+      </div>
+    </div>
   );
 }
 
-export default function Banner(props: BannerProps) {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <BannerContent {...props} />
-    </Suspense>
-  );
-}
+export default BannerContent;

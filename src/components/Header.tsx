@@ -1,53 +1,8 @@
 "use client";
 
 import { logOut } from "@/app/(tabs)/(main)/actions";
-import styled from "@emotion/styled";
 import Link from "next/link";
-
-const HeaderContainer = styled.header`
-  height: 80px;
-  background-color: gray;
-  display: flex;
-  justify-content: space-between;
-  padding: 16px;
-`;
-
-const HeaderMenu = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const HeaderTitle = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 1.25rem;
-  font-weight: bold;
-`;
-
-const HeaderAuth = styled.div`
-  display: flex;
-  gap: 6px;
-  align-items: center;
-`;
-
-const AuthLink = styled(Link)`
-  color: white;
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-const LogoutButton = styled.button`
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  padding: 0;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
+import styles from "@/styles/Header.module.css";
 
 type HeaderProps = {
   isLogin: boolean;
@@ -55,21 +10,21 @@ type HeaderProps = {
 
 export default function Header({ isLogin }: HeaderProps) {
   return (
-    <HeaderContainer>
-      <HeaderMenu>menu</HeaderMenu>
-      <HeaderTitle>모두의 갤러리</HeaderTitle>
-      <HeaderAuth>
+    <header className={styles.header}>
+      <div className={styles.menu}>menu</div>
+      <div className={styles.title}>모두의 갤러리</div>
+      <div className={styles.auth}>
         {!isLogin ? (
           <div>
-            <AuthLink href="/login">login</AuthLink>
-            <AuthLink href="/signup">signup</AuthLink>
+            <Link href="/login" className={styles.link}>login</Link>
+            <Link href="/signup" className={styles.link}>signup</Link>
           </div>
         ) : (
           <form action={logOut}>
-            <LogoutButton>logout</LogoutButton>
+            <button className={styles.logoutButton}>logout</button>
           </form>
         )}
-      </HeaderAuth>
-    </HeaderContainer>
+      </div>
+    </header>
   );
 }

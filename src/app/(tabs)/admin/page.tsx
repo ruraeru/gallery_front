@@ -1,8 +1,8 @@
 import PostCard from "@/components/posts/PostCard";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
-import { getCachedUnallowedPosts } from "@/service/postService";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { getCachedUnallowedPosts, getUnallowedPosts } from "@/service/postService";
+import { revalidateTag } from "next/cache";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
@@ -38,7 +38,7 @@ async function deletePost(formData: FormData) {
 
 export default async function AdminPage() {
     const session = await getSession();
-    const posts = await getCachedUnallowedPosts();
+    const posts = await getUnallowedPosts();
 
     if (!session || session.license > 0) {
         return notFound();
@@ -48,16 +48,24 @@ export default async function AdminPage() {
         <Suspense fallback={<div>Loading...</div>}>
             <h1>Admin Page</h1>
             {posts.map((post) => (
-                <div key={post.id}>
-                    <PostCard post={post} />
-                    <form action={allowedPost}>
-                        <input type="hidden" name="postId" value={post.id} />
-                        <button type="submit">Allow</button>
-                    </form>
-                    <form action={deletePost}>
-                        <input type="hidden" name="postId" value={post.id} />
-                        <button type="submit">Delete</button>
-                    </form>
+                <div key={post.id} style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-around"
+                }}>
+                    <div>
+                        <PostCard post={post} />
+                    </div>
+                    <div>
+                        <form action={allowedPost}>
+                            <input type="hidden" name="postId" value={post.id} />
+                            <button type="submit">Allow</button>
+                        </form>
+                        <form action={deletePost}>
+                            <input type="hidden" name="postId" value={post.id} />
+                            <button type="submit">Delete</button>
+                        </form>
+                    </div>
                 </div>
             ))}
         </Suspense>

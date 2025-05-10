@@ -47,9 +47,10 @@ export const getPosts = async () => {
       },
     },
     orderBy: {
-      likes: {
-        _count: "desc",
-      },
+      // likes: {
+      //   _count: "desc",
+      // },
+      views: "desc",
     },
   });
   return posts;

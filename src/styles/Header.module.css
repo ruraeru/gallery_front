@@ -1,0 +1,48 @@
+.header {
+  height: 80px;
+  background-color: #4b5563;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+}
+
+.auth {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.link {
+  color: white;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.link:hover {
+  opacity: 0.8;
+}
+
+.logoutButton {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.2s ease;
+}
+
+.logoutButton:hover {
+  opacity: 0.8;
+}

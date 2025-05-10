@@ -4,69 +4,8 @@ import Button from "@/components/button";
 import Input from "@/components/input";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { useActionState, useState } from "react";
-import styled from "@emotion/styled";
 import uploadPost from "./actions";
-
-const Container = styled.div`
-  margin: 0 auto;
-  max-width: 1200px;
-  display: flex;
-  height: 100vh;
-  justify-content: space-around;
-  align-items: center;
-`;
-
-const Form = styled.form`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  padding: 1.25rem;
-`;
-
-const PhotoLabel = styled.label<{ hasPreview: boolean }>`
-  width: 450px;
-  height: 600px;
-  border: 2px dashed black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  color: #d1d5db;
-  border-radius: 0.375rem;
-  cursor: pointer;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
-  ${(props) =>
-        props.hasPreview &&
-        `
-      border-style: solid;
-    `}
-`;
-
-const PhotoPlaceholder = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Icon = styled(PhotoIcon)`
-  width: 5rem;
-  height: 5rem;
-`;
-
-const PhotoText = styled.div`
-  color: #9ca3af;
-  font-size: 0.875rem;
-  text-align: center;
-`;
-
-const HiddenInput = styled.input`
-  display: none;
-`;
+import styles from "@/styles/AddPost.module.css";
 
 export default function AddProduct() {
     const [preview, setPreview] = useState<string | null>(null);
@@ -89,50 +28,48 @@ export default function AddProduct() {
 
     const [state, action] = useActionState(uploadPost, null);
     return (
-        <Container>
+        <div className={styles.container}>
             <div>
-                <PhotoLabel
+                <label
                     htmlFor="photo"
-                    hasPreview={!!preview}
+                    className={`${styles.photoLabel} ${preview ? styles.hasPreview : ''}`}
                     style={{ backgroundImage: `url(${preview ? preview : ""})` }}
                 >
                     {!preview ? (
-                        <PhotoPlaceholder>
-                            <Icon />
-                            <PhotoText>사진을 추가해주세요.</PhotoText>
-                        </PhotoPlaceholder>
+                        <div className={styles.photoPlaceholder}>
+                            <PhotoIcon className={styles.icon} />
+                            <div className={styles.photoText}>사진을 추가해주세요.</div>
+                        </div>
                     ) : null}
-                </PhotoLabel>
+                </label>
                 <p>*가로 이미지를 업로드 시 이미지가 짤릴 수 있어요!!</p>
                 <p>{state?.formErrors}</p>
             </div>
-            <Form action={action}>
-                <HiddenInput
-                    onChange={onImageChange}
+            <form className={styles.form} action={action}>
+                <Input
+                    label="제목"
+                    name="title"
+                    type="text"
+                    placeholder="제목을 입력해주세요."
+                    errors={state?.fieldErrors?.title}
+                />
+                <Input
+                    label="설명"
+                    name="description"
+                    type="text"
+                    placeholder="설명을 입력해주세요."
+                    errors={state?.fieldErrors?.description}
+                />
+                <input
                     type="file"
                     id="photo"
                     name="photo"
                     accept="image/*"
-                    required
+                    onChange={onImageChange}
+                    className={styles.hiddenInput}
                 />
-                <Input
-                    required
-                    placeholder="제목"
-                    type="text"
-                    label="제목"
-                    name="title"
-                    errors={state?.fieldErrors.title}
-                />
-                <Input
-                    type="text"
-                    required
-                    placeholder="자세한 설명"
-                    name="description"
-                    label="설명"
-                    errors={state?.fieldErrors.description}
-                />
-                <Button text="작성 완료" />
-            </Form>
-        </Container>
+                <Button text="업로드" />
+            </form>
+        </div>
     );
 }
