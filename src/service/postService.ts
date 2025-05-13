@@ -1,7 +1,8 @@
 "use server";
 
 import db from "@/lib/db";
-import { unstable_cache as nextCache } from "next/cache";
+import getSession from "@/lib/session";
+import { unstable_cache as nextCache, revalidateTag } from "next/cache";
 
 export const getUnallowedPosts = async () => {
   const posts = await db.post.findMany({
@@ -71,6 +72,13 @@ export const getPostByID = async (id: number) => {
         increment: 1,
       },
     },
+    include: {
+      _count: {
+        select: {
+          likes: true,
+        },
+      },
+    },
   });
 
   return post;
@@ -85,4 +93,47 @@ export async function getCachedPostByID(id: number) {
   });
 
   return cachedOpertaion(id);
+}
+
+export async function getLikeStatus(postId: number) {
+  const session = await getSession();
+  const userId = session.id;
+
+  const isLiked = await db.like.findUnique({
+    where: {
+      id: {
+        userId,
+        postId,
+      },
+    },
+  });
+
+  return {
+    userId: session.id,
+    isLiked: Boolean(isLiked),
+  };
+}
+
+export async function likePost(postId: number) {
+  const session = await getSession();
+  const like = await db.like.create({
+    data: {
+      postId,
+      userId: session.id,
+    },
+  });
+  revalidateTag(`post-detail-${postId}`);
+}
+
+export async function disLikePost(postId: number) {
+  const session = await getSession();
+  const like = await db.like.delete({
+    where: {
+      id: {
+        postId,
+        userId: session.id,
+      },
+    },
+  });
+  revalidateTag(`post-detail-${postId}`);
 }

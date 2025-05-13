@@ -1,6 +1,8 @@
 import Detail from "@/components/imageDtail";
-import { getCachedPostByID, getPostByID } from "@/service/postService";
-import { HandThumbUpIcon, HeartIcon } from "@heroicons/react/24/outline";
+import LikeButton from "@/components/posts/like-button";
+import { getCachedPostByID, getLikeStatus, getPostByID } from "@/service/postService";
+import { HandThumbUpIcon, HeartIcon as OutlineHeartIcon } from "@heroicons/react/24/outline";
+import { HandThumbUpIcon as SolidHandThumbUpIcon, HeartIcon as SolidHeartIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
@@ -10,6 +12,8 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
     if (!post) {
         return notFound();
     }
+    const { isLiked } = await getLikeStatus(post.id);
+
     return (
         <Detail url={post.image}>
             <h1 style={{
@@ -40,9 +44,10 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                     />
                 </div>
                 <div>
-                    조회수 : {post.views}
-                    {/* 좋아요 : {post._count.likes} */}
-                    <HeartIcon width={32} />
+                    {/* 조회수 : {post.views} */}
+                    좋아요 : {post._count.likes}
+                    <LikeButton postId={post.id} isLiked={isLiked} />
+
                 </div>
             </div>
             <h3 style={{
