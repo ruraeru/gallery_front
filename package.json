@@ -2,8 +2,10 @@
   "name": "gallery_front",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
+    "secure": "npm run build && node server.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

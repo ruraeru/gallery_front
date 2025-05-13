@@ -2,8 +2,8 @@ import fs from 'fs'
 import https from 'https'
 import next from 'next'
 
-const port = 3000
-const hostname = '172.111.114.189'
+const port = 8080 //port
+const hostname = '172.111.114.189' // ip
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev: false })
