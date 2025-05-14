@@ -22,8 +22,9 @@ const formSchema = z
       .string()
       .toLowerCase()
       .trim()
+      .min(1)
       .refine(checkUsername, "admin not allowed"),
-    username: z.string().toLowerCase().trim(),
+    username: z.string().toLowerCase().trim().min(1),
     password: z.string().min(8),
     confirmPassword: z.string().min(8),
   })
@@ -58,7 +59,9 @@ export async function createAccount(prevState: unknown, formData: FormData) {
     password: formData.get("password"),
     confirmPassword: formData.get("confirmPassword"),
   };
+  console.log(`input: ${data}`);
   const result = await formSchema.safeParseAsync(data);
+  console.log(`result: ${result.data}`);
   if (!result.success) {
     return result.error.flatten();
   } else {
