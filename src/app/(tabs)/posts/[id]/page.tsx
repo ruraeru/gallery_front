@@ -2,9 +2,11 @@ import Detail from "@/components/imageDtail";
 import LikeButton from "@/components/posts/like-button";
 import { getCachedPostByID, getLikeStatus, getPostByID } from "@/service/postService";
 import { HandThumbUpIcon, HeartIcon as OutlineHeartIcon } from "@heroicons/react/24/outline";
-import { HandThumbUpIcon as SolidHandThumbUpIcon, HeartIcon as SolidHeartIcon } from "@heroicons/react/24/solid";
+import { ChartBarIcon, HandThumbUpIcon as SolidHandThumbUpIcon, HeartIcon as SolidHeartIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import styles from "./ProductDetail.module.css";
+
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
@@ -21,14 +23,15 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
             }}>{post.title}</h1>
             <div style={{
                 display: "flex",
-                alignItems: "flex-end"
+                alignItems: "center",
+                flexDirection: "column",
             }}>
-                <div key={post.id} style={{
+                <div key={post.id} className={styles.imageWrapper} style={{
                     position: "relative",
                     placeItems: "center center",
                     textAlign: "center",
-                    width: "420px",
-                    height: "630px"
+                    // width: "420px",
+                    // height: "630px",
                 }}>
                     <Image
                         style={{
@@ -43,19 +46,36 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                         alt={post.title}
                     />
                 </div>
-                <div>
-                    {/* 조회수 : {post.views} */}
-                    좋아요 : {post._count.likes}
-                    <LikeButton postId={post.id} isLiked={isLiked} />
+                <div style={{
+                    width: "100%",
+                    placeItems: "flex-start",
+                    display: "flex",
+                    gap: "6px",
+                    alignItems: "center"
+                }}>
+                    <div style={{
+                        display: "flex",
+                        alignItems: "center"
+                    }}>
+                        <LikeButton postId={post.id} isLiked={isLiked} />
+                        <span>좋아요 : {post._count.likes}</span>
+                    </div>
 
+                    <div style={{
+                        display: "flex",
+                        alignItems: "center"
+                    }}>
+                        <ChartBarIcon width={24} />
+                        <p>조회수 : {post.views}</p>
+                    </div>
                 </div>
-            </div>
+            </div >
             <h3 style={{
                 fontSize: "32px"
             }}>Photo by</h3>
             <h3 style={{
                 fontSize: "32px"
             }}>{post.userId}</h3>
-        </Detail>
+        </Detail >
     )
 }

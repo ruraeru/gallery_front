@@ -4,6 +4,7 @@ import { Post } from "@/service/postService";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "@/styles/PostCard.module.css";
+import InfoBar from "../post-info-bar";
 
 interface PostCardProps {
   id: number;
@@ -15,6 +16,10 @@ interface PostCardProps {
   created_at: Date;
   updated_at: Date;
   userId: string;
+  _count: {
+    comments: number;
+    likes: number;
+  };
 }
 
 function PostCardContent({ post }: { post: PostCardProps }) {
@@ -35,6 +40,7 @@ function PostCardContent({ post }: { post: PostCardProps }) {
       <p className={styles.title}>{post?.title}</p>
       <p className={styles.description}>{post?.description}</p>
       <Link href={`/users/${post?.userId}`} className={styles.userLink}>@{post?.userId}</Link>
+      <InfoBar views={post.views} likes={post._count.likes} comment={post._count.comments} />
     </div>
   );
 }

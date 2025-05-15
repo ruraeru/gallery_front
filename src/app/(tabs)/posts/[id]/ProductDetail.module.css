@@ -1,0 +1,15 @@
+.imageWrapper {
+  width: 420px;
+  height: 630px;
+}
+
+@media screen and (max-width: 768px) {
+  .imageWrapper {
+    width: 200px;
+    height: 300px;
+    img {
+      width: 250;
+      height: 310px;
+    }
+  }
+}

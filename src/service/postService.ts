@@ -3,6 +3,7 @@
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { unstable_cache as nextCache, revalidateTag } from "next/cache";
+import { redirect } from "next/navigation";
 
 export const getUnallowedPosts = async () => {
   const posts = await db.post.findMany({
@@ -116,24 +117,36 @@ export async function getLikeStatus(postId: number) {
 
 export async function likePost(postId: number) {
   const session = await getSession();
-  const like = await db.like.create({
-    data: {
-      postId,
-      userId: session.id,
-    },
-  });
+  try {
+    await db.like.create({
+      data: {
+        postId,
+        userId: session.id,
+      },
+    });
+  } catch {
+    console.log("여러번 클릭됨");
+    redirect("/");
+  }
+  // revalidateTag("posts");
   revalidateTag(`post-detail-${postId}`);
 }
 
 export async function disLikePost(postId: number) {
   const session = await getSession();
-  const like = await db.like.delete({
-    where: {
-      id: {
-        postId,
-        userId: session.id,
+  try {
+    await db.like.delete({
+      where: {
+        id: {
+          postId,
+          userId: session.id,
+        },
       },
-    },
-  });
+    });
+  } catch {
+    console.log("여러번 클릭됨");
+    redirect("/");
+  }
+  // revalidateTag("posts");
   revalidateTag(`post-detail-${postId}`);
 }

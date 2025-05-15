@@ -10,10 +10,6 @@
   color: white;
 }
 
-.wrapper * {
-  font-family: "Pretendard-Regular";
-}
-
 .blurDiv {
   position: absolute;
   top: 0;
