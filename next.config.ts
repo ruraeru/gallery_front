@@ -1,6 +1,7 @@
 import { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  allowedDevOrigins: ["fedev.kro.kr", "frontdev.kro.kr"],
   eslint: {
     ignoreDuringBuilds: true,
   },
