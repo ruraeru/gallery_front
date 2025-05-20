@@ -33,5 +33,5 @@ export async function middleware(req: NextRequest) {
 
 //middleware가 실행 될 곳을 지정 가능
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)"],
 };
