@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String    @id
+  username   String
+  password   String
+  avatar     String?
+  license    Int       @default(1)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  posts      Post[]
+  likes      Like[]
+  comments   Comment[]
+}
+
+model Post {
+  id          Int     @id @default(autoincrement())
+  image       String
+  title       String
+  description String
+  views       Int     @default(0)
+  allowed     Boolean @default(false)
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  comments   Comment[]
+  likes      Like[]
+}
+
+model Comment {
+  id      Int    @id @default(autoincrement())
+  comment String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId Int
+}
+
+model Like {
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId String
+  postId Int
+
+  @@id(name: "id", [userId, postId])
+}

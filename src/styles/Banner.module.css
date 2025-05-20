@@ -1,0 +1,27 @@
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.images {
+  display: flex;
+  gap: 16px;
+  min-width: 0;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 360px;
+  height: 360px;
+  flex-shrink: 0;
+}
+
+.image {
+  object-fit: cover;
+  border-radius: 8px;
+}
