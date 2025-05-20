@@ -62,7 +62,7 @@ export default function ProfileForm({ user }: { user: UserInfoType }) {
                     }}
                     width={133}
                     height={133}
-                    src={user?.avatar || "/null"}
+                    src={user?.avatar || "/default_avatar.png"}
                     alt=""
                 />
                 <label
@@ -74,13 +74,7 @@ export default function ProfileForm({ user }: { user: UserInfoType }) {
                         height: "133px",
                         borderRadius: "50%"
                     }}
-                >
-                    {!preview ? (
-                        <div className={styles.photoPlaceholder}>
-                            <PhotoIcon className={styles.icon} />
-                        </div>
-                    ) : null}
-                </label>
+                />
                 <p>{state?.formErrors}</p>
             </div>
             <form action={aciton} className={styles.form}>

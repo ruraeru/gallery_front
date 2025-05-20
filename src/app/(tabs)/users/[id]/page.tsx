@@ -35,7 +35,7 @@ export default async function UserProfile({ params }: { params: Promise<{ id: st
                     }}
                     width={133}
                     height={133}
-                    src={user.avatar || "/null"}
+                    src={user.avatar || "/default_avatar.png"}
                     alt="profile"
                 />
                 {myProfile && (
