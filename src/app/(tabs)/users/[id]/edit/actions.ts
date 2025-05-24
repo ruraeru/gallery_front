@@ -121,7 +121,7 @@ export default async function updateProfile(_: unknown, formData: FormData) {
           },
           data: updatePayload,
         });
-        // await logOut(); //프로필 수정 성공 시 logout 시키고 메인으로 보냄
+        await logOut(); //프로필 수정 성공 시 logout 시키고 메인으로 보냄
       }
     }
   }
