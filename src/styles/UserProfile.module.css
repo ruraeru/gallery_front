@@ -1,0 +1,177 @@
+.profilePageContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+  color: #333;
+}
+
+.profileHeader {
+  position: relative;
+  margin-bottom: 30px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.coverImage {
+  width: 100%;
+  height: 280px;
+  background-color: #e9ecef;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.headerContentWrapper {
+  position: relative;
+  margin-top: -100px;
+}
+
+.avatarAndInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 24px 24px;
+}
+
+.avatarImage {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background-color: #f8f9fa;
+  z-index: 2;
+  margin-bottom: 16px;
+}
+
+.userInfo {
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-top: -20px;
+  padding-top: 30px;
+}
+
+.userName {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #212529;
+}
+
+.userId {
+  font-size: 1.1rem;
+  color: #6c757d;
+  margin-bottom: 4px;
+}
+
+.joinDate {
+  font-size: 0.9rem;
+  color: #adb5bd;
+  margin-bottom: 16px;
+}
+
+.actionButtonsContainer {
+  position: absolute;
+  top: 140px;
+  right: 24px;
+  display: flex;
+  gap: 12px;
+  z-index: 3;
+}
+
+.headerButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  background-color: #fff;
+  color: #007bff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+}
+
+.headerButton:hover {
+  background-color: #f8f9fa;
+  transform: translateY(-1px);
+}
+
+.postsSectionContainer {
+  margin-top: 40px;
+}
+
+.sectionTitle {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #dee2e6;
+  color: #495057;
+}
+
+.postsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+}
+
+.emptyMessageWrapper {
+  padding: 40px;
+  text-align: center;
+  color: #6c757d;
+  font-size: 1.1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 32px;
+}
+
+@media (max-width: 768px) {
+  .coverImage {
+    height: 200px;
+  }
+  .headerContentWrapper {
+    margin-top: -80px;
+  }
+  .avatarImage {
+    width: 120px;
+    height: 120px;
+  }
+  .userName {
+    font-size: 1.5rem;
+  }
+  .userId {
+    font-size: 1rem;
+  }
+  .actionButtonsContainer {
+    position: static;
+    display: flex;
+    justify-content: flex-end; /* 버튼을 오른쪽으로 정렬 */
+    width: auto; /* 전체 너비 대신 내용에 맞게 */
+    margin: 16px 16px 0; /* 상단 여백 및 오른쪽 정렬을 위한 좌우 여백 */
+    padding-bottom: 0; /* 기존 하단 패딩 제거 또는 조정 */
+  }
+  .userInfo {
+    margin-top: 16px; /* 액션 버튼이 static으로 변경됨에 따른 상단 여백 조정 */
+    padding-top: 20px;
+  }
+  .postsGrid {
+    gap: 16px;
+  }
+  .sectionTitle {
+    font-size: 1.5rem;
+  }
+}

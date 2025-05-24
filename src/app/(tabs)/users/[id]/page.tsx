@@ -3,6 +3,7 @@ import { getUser, isOwn } from "@/service/userService";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import styles from '@/styles/UserProfile.module.css';
 
 export default async function UserProfile({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
@@ -12,73 +13,86 @@ export default async function UserProfile({ params }: { params: Promise<{ id: st
     if (!user) {
         return notFound();
     }
+
+    const allowedPosts = user.posts.filter((post) => post.allowed);
+    const notAllowedPosts = user.posts.filter((post) => !post.allowed);
+
+    const coverImageUrl = user.posts.find(post => post.allowed && post.image)?.image || '/default_cover.png';
+    const joinDateFormatted = new Date(user.created_at).toLocaleDateString('ko-KR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    });
+
     return (
-        <div style={{
-            maxWidth: "1200px",
-            margin: "0 auto",
-        }}>
-            <div style={{
-                position: "relative"
-            }}>
-                <div style={{
-                    width: "100%",
-                    height: "199px",
-                    backgroundColor: "red",
-                    background: `url(${user.posts[0]?.image}) center/cover no-repeat`,
-                }} />
-                <Image
-                    style={{
-                        borderRadius: "50%",
-                        position: "absolute",
-                        border: "4px solid black",
-                        objectFit: "cover",
-                    }}
-                    width={133}
-                    height={133}
-                    src={user.avatar || "/default_avatar.png"}
-                    alt="profile"
+        <div className={styles.profilePageContainer}>
+            <header className={styles.profileHeader}>
+                <div
+                    className={styles.coverImage}
+                    style={{ backgroundImage: `url(${coverImageUrl})` }}
                 />
+
                 {myProfile && (
-                    <div style={{
-                        position: "absolute",
-                        right: 0,
-                        display: "flex",
-                        gap: "16px"
-                    }}>
-                        <div>
-                            <button>신청 내역</button>
-                        </div>
-                        <button>
-                            <Link href={`/users/${user.id}/edit`}>Edit Profile</Link>
-                        </button>
+                    <div className={styles.actionButtonsContainer}>
+                        <Link className={styles.headerButton} href={`/users/${user.id}/edit`}>
+                            Edit Profile
+                        </Link>
                     </div>
-                )
-                }
-                <div style={{
-                    width: "100%",
-                    backgroundColor: "black",
-                    color: "white"
-                }}>
-                    <div style={{
-                        width: "100%",
-                        height: "199px",
-                    }} />
-                    <div>
-                        <p>{user?.username}</p>
-                        <p>@{user?.id}</p>
-                        <p>{user?.created_at.toString()}</p>
+                )}
+
+                <div className={styles.headerContentWrapper}>
+                    <div className={styles.avatarAndInfo}>
+                        <Image
+                            className={styles.avatarImage}
+                            width={160}
+                            height={160}
+                            src={user.avatar || "/default_avatar.png"}
+                            alt={`${user.username}'s profile picture`}
+                            priority
+                        />
+                        <div className={styles.userInfo}>
+                            <p className={styles.userName}>{user.username}</p>
+                            <p className={styles.userId}>@{user.id}</p>
+                            <p className={styles.joinDate}>가입일: {joinDateFormatted}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div style={{
-                display: "flex",
-                gap: "16px",
-                flexWrap: "wrap",
-            }}>
-                {user.posts.map(post => (
-                    <PostCard post={post} key={post.id} />
-                ))}
-            </div>
+            </header>
+
+            <main className={styles.postsSectionContainer}>
+                <section>
+                    <h2 className={styles.sectionTitle}>게시물 ({allowedPosts.length})</h2>
+                    {allowedPosts.length > 0 ? (
+                        <div className={styles.postsGrid}>
+                            {allowedPosts.map(post => (
+                                <PostCard post={post} key={post.id} />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className={styles.emptyMessageWrapper}>
+                            <p>아직 게시물이 없습니다.</p>
+                            <Link href={"/posts/add"} className={styles.headerButton}>게시글 업로드 하러 가기!</Link>
+                        </div>
+                    )}
+                </section>
+
+                {myProfile && (
+                    <section style={{ marginTop: '40px' }}>
+                        <h2 className={styles.sectionTitle}>승인 대기 중인 게시물 ({notAllowedPosts.length})</h2>
+                        {notAllowedPosts.length > 0 ? (
+                            <div className={styles.postsGrid}>
+                                {notAllowedPosts.map(post => (
+                                    <PostCard post={post} key={post.id} />
+                                ))}
+                            </div>
+                        ) : (
+                            <div className={styles.emptyMessageWrapper}>
+                                <p>승인 대기 중인 게시물이 없습니다.</p>
+                            </div>
+                        )}
+                    </section>
+                )}
+            </main>
         </div>
-    )
+    );
 }
