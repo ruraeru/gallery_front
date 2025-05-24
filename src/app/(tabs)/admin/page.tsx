@@ -1,73 +1,86 @@
 import PostCard from "@/components/posts/PostCard";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
-import { getCachedUnallowedPosts, getUnallowedPosts } from "@/service/postService";
+import { getUnallowedPosts } from "@/service/postService";
 import { revalidateTag } from "next/cache";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import styles from '@/styles/AdminPage.module.css'; // 새로운 CSS 모듈 임포트
 
-const revaildateCache = () => {
+async function allowedPost(formData: FormData) {
+    "use server";
+    const postIdString = formData.get("postId") as string;
+    const postId = parseInt(postIdString, 10);
+
+    await db.post.update({
+        where: { id: postId },
+        data: { allowed: true },
+    });
+
     revalidateTag("un-allowed-posts");
     revalidateTag("posts");
 }
 
-async function allowedPost(formData: FormData) {
-    "use server";
-    const postId = formData.get("postId") as string;
-    if (!postId) throw new Error("Post ID is required");
-
-    await db.post.update({
-        where: { id: parseInt(postId) },
-        data: { allowed: true },
-    });
-
-    revaildateCache();
-}
-
 async function deletePost(formData: FormData) {
     "use server";
-    const postId = formData.get("postId") as string;
-    if (!postId) throw new Error("Post ID is required");
+    const postIdString = formData.get("postId") as string;
+    const postId = parseInt(postIdString, 10);
 
     await db.post.delete({
-        where: { id: parseInt(postId) },
+        where: { id: postId },
     });
 
-    revaildateCache();
+    revalidateTag("un-allowed-posts");
+    revalidateTag("posts");
+}
+
+async function UnallowedPostsList() {
+    const posts = await getUnallowedPosts();
+
+    if (!posts || posts.length === 0) {
+        return <div className={styles.emptyState}>승인 대기 중인 게시물이 없습니다.</div>;
+    }
+
+    return (
+        <div className={styles.postReviewList}>
+            {posts.map((post) => (
+                <article key={post.id} className={styles.postReviewItem}>
+                    <div className={styles.postCardWrapper}>
+                        <PostCard post={post} />
+                    </div>
+                    <div className={styles.actionsContainer}>
+                        <form action={allowedPost}>
+                            <input type="hidden" name="postId" value={post.id.toString()} />
+                            <button type="submit" className={`${styles.actionButton} ${styles.allowButton}`}>
+                                승인
+                            </button>
+                        </form>
+                        <form action={deletePost}>
+                            <input type="hidden" name="postId" value={post.id.toString()} />
+                            <button type="submit" className={`${styles.actionButton} ${styles.deleteButton}`}>
+                                삭제
+                            </button>
+                        </form>
+                    </div>
+                </article>
+            ))}
+        </div>
+    );
 }
 
 export default async function AdminPage() {
     const session = await getSession();
-    const posts = await getUnallowedPosts();
 
-    if (!session || session.license > 0) {
-        return notFound();
+    if (!session || session.license !== 0) {
+        notFound();
     }
 
     return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <h1>Admin Page</h1>
-            {posts.map((post) => (
-                <div key={post.id} style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-around"
-                }}>
-                    <div>
-                        <PostCard post={post} />
-                    </div>
-                    <div>
-                        <form action={allowedPost}>
-                            <input type="hidden" name="postId" value={post.id} />
-                            <button type="submit">Allow</button>
-                        </form>
-                        <form action={deletePost}>
-                            <input type="hidden" name="postId" value={post.id} />
-                            <button type="submit">Delete</button>
-                        </form>
-                    </div>
-                </div>
-            ))}
-        </Suspense>
+        <div className={styles.adminPageContainer}>
+            <h1 className={styles.pageTitle}>게시물 승인 관리</h1>
+            <Suspense fallback={<div className={styles.loadingState}>게시물을 불러오는 중...</div>}>
+                <UnallowedPostsList />
+            </Suspense>
+        </div>
     );
 }

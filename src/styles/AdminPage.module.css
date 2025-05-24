@@ -1,0 +1,146 @@
+.adminPageContainer {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  min-height: calc(100vh - 40px);
+}
+
+.pageTitle {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #343a40;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #dee2e6;
+  text-align: center;
+}
+
+.loadingState,
+.emptyState {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #6c757d;
+  padding: 50px 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-top: 20px;
+}
+
+.postReviewList {
+  display: grid;
+  gap: 25px;
+}
+
+.postReviewItem {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+  padding: 25px;
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+  align-items: flex-start;
+}
+
+.postCardWrapper {
+  flex: 1 1 70%;
+  min-width: 0;
+}
+
+.actionsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 0 0 180px;
+  padding-top: 5px;
+}
+
+.actionsContainer form {
+  display: flex;
+}
+
+.actionButton {
+  padding: 12px 15px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.actionButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+.allowButton {
+  background-color: #28a745;
+  color: white;
+}
+
+.allowButton:hover {
+  background-color: #218838;
+}
+
+.deleteButton {
+  background-color: #dc3545;
+  color: white;
+}
+
+.deleteButton:hover {
+  background-color: #c82333;
+}
+
+@media (max-width: 900px) {
+  .postReviewItem {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .postCardWrapper {
+    margin-bottom: 20px;
+    flex-basis: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .actionsContainer {
+    flex-direction: row;
+    flex-basis: auto;
+    width: 100%;
+    justify-content: space-evenly;
+  }
+
+  .actionsContainer form {
+    flex: 1 1 45%;
+    margin: 0 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .adminPageContainer {
+    margin: 10px auto;
+    padding: 15px;
+  }
+  .pageTitle {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+  .postReviewItem {
+    padding: 15px;
+  }
+  .actionsContainer form {
+    margin: 5px 0;
+    flex-basis: auto;
+  }
+}
