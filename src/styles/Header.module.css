@@ -1,42 +1,239 @@
 .header {
-  height: 80px;
-  background-color: #4b5563;
+  background-color: #ffffff;
+  color: #333333;
+  padding: 0 24px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.container {
+  width: 100%;
+  max-width: 1320px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  height: 100%;
 }
 
-.menu {
+.leftNav,
+.centerLogo,
+.rightActions {
   display: flex;
   align-items: center;
 }
 
-.auth {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
+.leftNav {
+  flex: 1;
+  justify-content: flex-start;
+  gap: 28px;
 }
 
-.link {
-  color: white;
+.centerLogo {
+  flex: 0 1 auto;
+  padding: 0 20px;
+}
+
+.rightActions {
+  flex: 1;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.navLink {
+  color: #555555;
   text-decoration: none;
-  transition: opacity 0.2s ease;
+  padding: 8px 4px;
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  transition: color 0.2s ease;
+  position: relative;
 }
 
-.link:hover {
-  opacity: 0.8;
+.navLink:hover {
+  color: #000000;
+}
+
+.logoLink {
+  display: inline-block;
+}
+
+.logoImage {
+  max-height: 60px;
+  width: auto;
+  object-fit: contain;
+}
+
+.authContainer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.iconLink {
+  color: #333333;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
+
+.iconLink svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 1.5;
+}
+
+.myPageText {
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-left: 4px;
+  letter-spacing: 0.05em;
+}
+
+.authLink {
+  color: #333333;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.authLink:hover {
+  background-color: #f5f5f5;
 }
 
 .logoutButton {
   background: none;
   border: none;
-  color: white;
+  color: #555555;
   cursor: pointer;
-  padding: 0;
-  transition: opacity 0.2s ease;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .logoutButton:hover {
-  opacity: 0.8;
+  background-color: #f5f5f5;
+  color: #000000;
+}
+
+.mobileMenuButton {
+  display: none;
+  background: none;
+  border: none;
+  color: #333333;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+}
+
+.mobileMenuButton svg {
+  width: 28px;
+  height: 28px;
+}
+
+.desktopOnly {
+  display: flex;
+  align-items: center;
+}
+
+.mobileNavMenu {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(5px);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+  box-sizing: border-box;
+  gap: 15px;
+}
+
+.mobileNavMenu.open {
+  display: flex;
+}
+
+.mobileNavMenu .navLink,
+.mobileNavMenu .authLink,
+.mobileNavMenu .logoutButton {
+  display: block;
+  width: auto;
+  text-align: center;
+  padding: 15px 0;
+  font-size: 1.3rem;
+  color: #333333;
+  border-bottom: none;
+}
+.mobileNavMenu .logoutButton {
+  width: auto;
+}
+
+.closeMobileMenuButton {
+  background-color: transparent;
+  color: black;
+  border: 0;
+}
+
+@media (max-width: 992px) {
+  .leftNav {
+    gap: 16px;
+  }
+  .navLink {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 0 16px;
+    height: 60px;
+  }
+  .desktopOnly {
+    display: none;
+  }
+  .mobileMenuButton {
+    display: block;
+  }
+
+  .leftNav {
+    flex: 0 1 auto;
+    justify-content: flex-start;
+  }
+  .centerLogo {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+  }
+  .rightActions {
+    flex: 0 1 auto;
+    gap: 10px;
+  }
+  .iconLink svg {
+    width: 18px;
+    height: 18px;
+  }
+  .myPageText,
+  .authLink,
+  .logoutButton {
+    font-size: 0.8rem;
+    padding: 6px 8px;
+  }
 }
