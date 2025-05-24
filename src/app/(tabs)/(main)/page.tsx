@@ -3,48 +3,39 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AddButton from "@/components/AddButton";
 import Banner from "@/components/posts/Banner";
-import ImageCard from "@/components/posts/PostCard";
+import PostCard from "@/components/posts/PostCard";
 import { getCahcedPosts } from "@/service/postService";
-
-const containerStyle = {
-  position: "relative",
-  minHeight: "100vh",
-  display: "flex",
-  flexDirection: "column",
-} as const;
-
-const mainStyle = {
-  minHeight: "100vh",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-} as const;
-
-const imageListStyle = {
-  display: "flex",
-  justifyContent: "center",
-  flexWrap: "wrap",
-  padding: "32px",
-  gap: "16px",
-} as const;
+import styles from '@/styles/HomePage.module.css';
 
 export default async function Home() {
   const posts = await getCahcedPosts();
   const session = await getSession();
-  const isLogin = Boolean(session.id);
+  const isLogin = Boolean(session?.id);
 
   return (
-    <div style={containerStyle}>
+    <div className={styles.pageContainer}>
       <Header isLogin={isLogin} />
-      <main style={mainStyle}>
-        <Banner posts={posts} />
-        <div style={imageListStyle}>
-          {posts.map((post) => (
-            <ImageCard key={post.id} post={post} />
-          ))}
-        </div>
+      <main className={styles.mainContent}>
+        {/* 베너 부분 */}
+        <section className={styles.bannerSection}>
+          <Banner posts={posts} />
+        </section>
+        <section className={styles.postsSection}>
+          <h2 className={styles.sectionTitle}>최신 게시물을 만나보세요</h2>
+          {posts && posts.length > 0 ? (
+            <div className={styles.postsGrid}>
+              {posts.map((post) => (
+                <PostCard key={post.id} post={post} />
+              ))}
+            </div>
+          ) : (
+            <p className={styles.emptyPostsMessage}>
+              아직 게시물이 없습니다. 새로운 소식을 가장 먼저 공유해보세요!
+            </p>
+          )}
+        </section>
       </main>
-      <AddButton />
+      {isLogin && <AddButton />}
       <Footer />
     </div>
   );
