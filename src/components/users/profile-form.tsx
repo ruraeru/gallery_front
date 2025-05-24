@@ -2,117 +2,111 @@
 
 import { UserInfoType } from "@/service/userService";
 import { PhotoIcon } from "@heroicons/react/24/solid";
-import { ChangeEvent, useActionState, useEffect, useState } from "react";
-import styles from "@/styles/AddPost.module.css";
-import Input from "../input";
+import { useActionState, useEffect, useState, useRef } from "react";
+import styles from "@/styles/ProfileEditForm.module.css";
+import Input from "@/components/input";
+import Button from "@/components/button";
 import updateProfile from "@/app/(tabs)/users/[id]/edit/actions";
-import Button from "../button";
 import Image from "next/image";
 
 export default function ProfileForm({ user }: { user: UserInfoType }) {
-    const [preview, setPreview] = useState<string | null>(null);
+    const [preview, setPreview] = useState<string | null>(user?.avatar || null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        console.log(user?.avatar)
         if (user?.avatar) {
-            setPreview(user?.avatar);
+            setPreview(user.avatar);
         }
-    }, [user]);
-    const [value, setValue] = useState(user?.username);
-
-    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setValue(e.currentTarget.value)
-    }
+    }, [user?.avatar]);
 
     const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { target: { files } } = e;
-        if (!files) return;
+        if (!files || files.length === 0) return;
         const file = files[0];
 
-        const allowedFileTypes = ["png", "jpg", "jpeg", "HEIC", "webp"];
-        if (allowedFileTypes.indexOf(file.type.split("/")[1]) === -1) {
-            alert("file upload is only .png, .jpg, .jpeg .HEIC .webp");
+        const allowedFileTypes = ["image/png", "image/jpeg", "image/webp", "image/heic"];
+        if (!allowedFileTypes.includes(file.type)) {
+            alert("업로드 가능한 파일 형식은 PNG, JPG, JPEG, WEBP, HEIC 입니다.");
+            if (fileInputRef.current) {
+                fileInputRef.current.value = "";
+            }
             return;
         }
-        if (file.size > 4000000) {
-            alert("file is very big!!!!");
+        if (file.size > 4 * 1024 * 1024) {
+            alert("파일 크기는 4MB를 초과할 수 없습니다.");
+            if (fileInputRef.current) {
+                fileInputRef.current.value = "";
+            }
             return;
         }
-        setPreview(URL.createObjectURL(file));
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setPreview(reader.result as string);
+        };
+        reader.readAsDataURL(file);
     };
 
-    const [state, aciton] = useActionState(updateProfile, null);
+    const [state, formAction] = useActionState(updateProfile, null);
+
     return (
-        <div style={{
-            width: "100%",
-            // maxWidth: "1200px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center"
-        }}>
-            <div>
-                <Image
-                    style={{
-                        borderRadius: "50%",
-                        position: "absolute",
-                        border: "4px solid black",
-                        objectFit: "cover",
-                        zIndex: -999,
-                    }}
-                    width={133}
-                    height={133}
-                    src={user?.avatar || "/default_avatar.png"}
-                    alt=""
-                />
-                <label
-                    htmlFor="avatar"
-                    className={`${styles.photoLabel} ${preview ? styles.hasPreview : ''}`}
-                    style={{
-                        backgroundImage: `url(${preview ? preview : ""})`,
-                        width: "133px",
-                        height: "133px",
-                        borderRadius: "50%"
-                    }}
-                />
-                <p>{state?.formErrors}</p>
+        <div className={styles.profileFormRoot}>
+            <div className={styles.avatarSection}>
+                <div className={styles.avatarPreviewContainer}>
+                    <Image
+                        className={styles.avatarImage}
+                        width={150}
+                        height={150}
+                        src={preview || "/default_avatar.png"}
+                        alt="Profile Avatar Preview"
+                        priority
+                    />
+                    <label htmlFor="avatar" className={styles.avatarEditLabel} title="프로필 사진 변경">
+                        <PhotoIcon className={styles.avatarEditIcon} />
+                    </label>
+                </div>
+                {state?.fieldErrors?.avatar && (
+                    <p className={styles.formErrors}>{state.fieldErrors.avatar.join(", ")}</p>
+                )}
             </div>
-            <form action={aciton} className={styles.form}>
+
+            {state?.formErrors && state.formErrors.length > 0 && !state.fieldErrors?.avatar && (
+                <p className={styles.formErrors}>{state.formErrors.join(", ")}</p>
+            )}
+
+            <form action={formAction} className={styles.actualForm}>
                 <input
-                    style={{
-                        display: "none"
-                    }}
+                    ref={fileInputRef}
                     type="file"
                     id="avatar"
                     name="avatar"
-                    accept="image/*"
+                    accept="image/png, image/jpeg, image/webp, image/heic"
                     onChange={onImageChange}
+                    className={styles.hiddenFileInput}
                 />
                 <Input
                     label="이름"
                     name="username"
                     type="text"
-                    placeholder={value}
-                    // value={value}
-                    onChange={onChange}
-                    errors={state?.fieldErrors.username}
+                    defaultValue={user?.username || ""}
+                    placeholder="새 사용자 이름"
+                    errors={state?.fieldErrors?.username}
                 />
                 <Input
-                    label="비밀번호"
+                    label="새 비밀번호"
                     name="password"
                     type="password"
-                    placeholder="비밀번호 입력"
-                    errors={state?.fieldErrors.password}
+                    placeholder="새 비밀번호 입력"
+                    errors={state?.fieldErrors?.password}
                 />
                 <Input
-                    label="비밀번호 확인"
+                    label="새 비밀번호 확인"
                     name="confirmPassword"
                     type="password"
-                    placeholder="비밀번호 다시 입력"
-                    errors={state?.fieldErrors.confirmPassword}
+                    placeholder="새 비밀번호 다시 입력"
+                    errors={state?.fieldErrors?.confirmPassword}
                 />
-                <Button text="수정 하기" />
-            </form>
-        </div>
-    )
+                <Button text="프로필 저장" />
+            </form >
+        </div >
+    );
 }
