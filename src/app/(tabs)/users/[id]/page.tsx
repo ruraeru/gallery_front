@@ -35,7 +35,7 @@ export default async function UserProfile({ params }: { params: Promise<{ id: st
                 {myProfile && (
                     <div className={styles.actionButtonsContainer}>
                         <Link className={styles.headerButton} href={`/users/${user.id}/edit`}>
-                            Edit Profile
+                            프로필 수정하기
                         </Link>
                     </div>
                 )}

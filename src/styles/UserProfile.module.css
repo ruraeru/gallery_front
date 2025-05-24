@@ -98,6 +98,7 @@
   color: #007bff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-decoration: none;
+  z-index: 999;
 }
 
 .headerButton:hover {
@@ -140,6 +141,10 @@
 }
 
 @media (max-width: 768px) {
+  .headerButton {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
   .coverImage {
     height: 200px;
   }
@@ -159,13 +164,13 @@
   .actionButtonsContainer {
     position: static;
     display: flex;
-    justify-content: flex-end; /* 버튼을 오른쪽으로 정렬 */
-    width: auto; /* 전체 너비 대신 내용에 맞게 */
-    margin: 16px 16px 0; /* 상단 여백 및 오른쪽 정렬을 위한 좌우 여백 */
-    padding-bottom: 0; /* 기존 하단 패딩 제거 또는 조정 */
+    justify-content: flex-end;
+    width: auto;
+    margin: 16px 16px 0;
+    padding-bottom: 0;
   }
   .userInfo {
-    margin-top: 16px; /* 액션 버튼이 static으로 변경됨에 따른 상단 여백 조정 */
+    margin-top: 16px;
     padding-top: 20px;
   }
   .postsGrid {
