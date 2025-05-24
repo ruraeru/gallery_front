@@ -1,7 +1,6 @@
 "use client";
 
 import { useFormStatus } from "react-dom";
-import styles from "@/styles/Button.module.css";
 
 interface ButtonProps {
     text: string;
@@ -10,7 +9,7 @@ interface ButtonProps {
 export default function Button({ text }: ButtonProps) {
     const { pending } = useFormStatus();
     return (
-        <button className={styles.button} disabled={pending}>
+        <button className="button" disabled={pending}>
             {pending ? "로딩 중" : text}
         </button>
     )

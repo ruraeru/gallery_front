@@ -1,5 +1,4 @@
 import { ForwardedRef, forwardRef, InputHTMLAttributes } from "react";
-import styles from "@/styles/Input.module.css";
 
 interface InputProps {
     name: string;
@@ -9,18 +8,19 @@ interface InputProps {
 
 const _Input = ({ name, label, errors = [], ...rest }: InputProps & InputHTMLAttributes<HTMLInputElement>, ref: ForwardedRef<HTMLInputElement>) => {
     return (
-        <div className={styles.wrapper}>
-            <div>
-                <label htmlFor={name}>{label}</label>
+        <div className="input-wrapper">
+            <div className="input-group">
+                <label className="input-label" htmlFor={name}>{label}</label>
                 <input
                     id={name}
                     ref={ref}
                     name={name}
+                    className="input-field"
                     {...rest}
                 />
             </div>
             {errors?.map((error, index) => (
-                <span key={index}>
+                <span key={index} className="error-message">
                     {error}
                 </span>
             ))}
