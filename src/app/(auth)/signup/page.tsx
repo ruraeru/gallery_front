@@ -5,6 +5,7 @@ import { createAccount } from "./actions";
 import Input from "@/components/input";
 import Button from "@/components/button";
 import styles from "@/styles/Auth.module.css";
+import Link from "next/link";
 
 export default function Page() {
   const [state, action] = useActionState(createAccount, null);
@@ -38,15 +39,18 @@ export default function Page() {
               errors={state?.fieldErrors?.password}
             />
             <Input
-              label=""
+              label="패스워드 확인"
               name="confirmPassword"
               type="password"
               placeholder="비밀번호를 다시 한번 입력해주세요."
               errors={state?.fieldErrors?.confirmPassword}
             />
           </div>
-          <Button text="로그인" />
+          <Button text="회원가입" />
         </form>
+        <p className={styles.footerText}>
+          이미 계정이 있으신가요? <Link href="/login" className={styles.footerLink}>로그인</Link>
+        </p>
       </div>
     </div>
   );

@@ -48,3 +48,19 @@
     font-size: 2rem;
   }
 }
+
+.footerText {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.footerLink {
+  color: #0070f3;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.footerLink:hover {
+  text-decoration: underline;
+}
