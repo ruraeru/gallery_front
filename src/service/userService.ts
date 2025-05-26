@@ -3,6 +3,26 @@
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 
+export const getUserInfo = async (id: string | null) => {
+  if (id) {
+    const user = await db.user.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        id: true,
+        avatar: true,
+        username: true,
+        created_at: true,
+      },
+    });
+    return user;
+  }
+  return null;
+};
+
+export type UserInfoType = Awaited<ReturnType<typeof getUserInfo>>;
+
 export const getUser = async (id: string) => {
   const user = await db.user.findUnique({
     where: {
@@ -23,7 +43,7 @@ export const getUser = async (id: string) => {
   return user;
 };
 
-export type UserInfoType = Awaited<ReturnType<typeof getUser>>;
+// export type UserInfoType = Awaited<ReturnType<typeof getUser>>;
 
 export const isOwn = async (id: string) => {
   const session = await getSession();

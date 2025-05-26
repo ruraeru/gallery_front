@@ -6,22 +6,23 @@ import Banner from "@/components/posts/Banner";
 import PostCard from "@/components/posts/PostCard";
 import { getCahcedPosts } from "@/service/postService";
 import styles from '@/styles/HomePage.module.css';
+import { getUserInfo } from "@/service/userService";
 
 export default async function Home() {
   const posts = await getCahcedPosts();
   const session = await getSession();
   const isLogin = Boolean(session?.id);
+  const userInfo = await getUserInfo(session.id);
 
   return (
     <div className={styles.pageContainer}>
-      <Header isLogin={isLogin} />
+      <Header isLogin={isLogin} userInfo={userInfo} />
       <main className={styles.mainContent}>
         {/* 베너 부분 */}
         <section className={styles.bannerSection}>
           <Banner posts={posts} />
         </section>
         <section className={styles.postsSection}>
-          <h2 className={styles.sectionTitle}>최신 게시물을 만나보세요</h2>
           {posts && posts.length > 0 ? (
             <div className={styles.postsGrid}>
               {posts.map((post) => (

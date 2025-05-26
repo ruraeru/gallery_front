@@ -4,14 +4,16 @@ import { logOut } from "@/app/(tabs)/(main)/actions";
 import Link from "next/link";
 import styles from "@/styles/Header.module.css";
 import Image from "next/image";
-import { UserIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import { UserInfoType } from "@/service/userService";
 
 type HeaderProps = {
   isLogin: boolean;
+  userInfo: UserInfoType;
 };
 
-export default function Header({ isLogin }: HeaderProps) {
+export default function Header({ isLogin, userInfo }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
@@ -21,6 +23,8 @@ export default function Header({ isLogin }: HeaderProps) {
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
   };
+
+  console.log(userInfo);
 
   return (
     <>
@@ -72,8 +76,14 @@ export default function Header({ isLogin }: HeaderProps) {
               )}
             </div>
             {isLogin && (
-              <Link href="/mypage" className={`${styles.iconLink} ${!styles.desktopOnly ? '' : styles.mobileMyPageIconContainer}`} onClick={closeMobileMenu}>
-                <UserIcon />
+              <Link href={`/users/${userInfo?.id}`} className={`${styles.iconLink} ${!styles.desktopOnly ? '' : styles.mobileMyPageIconContainer}`} onClick={closeMobileMenu}>
+                <Image
+                  src={userInfo?.avatar || "/default_avatar.png"}
+                  alt={`${userInfo?.username}'s profile avatar`}
+                  width={100}
+                  height={100}
+                  priority
+                />
                 <span className={`${styles.myPageText} ${!styles.desktopOnly ? '' : styles.mobileMyPageTextHidden}`}>MY PAGE</span>
               </Link>
             )}
@@ -94,7 +104,7 @@ export default function Header({ isLogin }: HeaderProps) {
         <hr style={{ margin: '15px 0', borderColor: '#ddd', width: '80%' }} />
         {isLogin ? (
           <>
-            <Link href="/mypage" className={styles.navLink} onClick={closeMobileMenu}>
+            <Link href={`/users/${userInfo?.id}`} className={styles.navLink} onClick={closeMobileMenu}>
               MY PAGE
             </Link>
             <form action={logOut} style={{ width: 'auto' }}>

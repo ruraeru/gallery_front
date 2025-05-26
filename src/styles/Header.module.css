@@ -84,10 +84,13 @@
   text-decoration: none;
 }
 
-.iconLink svg {
-  width: 20px;
-  height: 20px;
+.iconLink img {
+  width: 36px;
+  height: 36px;
   stroke-width: 1.5;
+
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .myPageText {
@@ -138,7 +141,7 @@
   z-index: 1001;
 }
 
-.mobileMenuButton svg {
+.mobileMenuButton img {
   width: 28px;
   height: 28px;
 }
@@ -226,7 +229,7 @@
     flex: 0 1 auto;
     gap: 10px;
   }
-  .iconLink svg {
+  .iconLink img {
     width: 18px;
     height: 18px;
   }
