@@ -24,8 +24,6 @@ export default function Header({ isLogin, userInfo }: HeaderProps) {
     setIsMobileMenuOpen(false);
   };
 
-  console.log(userInfo);
-
   return (
     <>
       <header className={styles.header}>

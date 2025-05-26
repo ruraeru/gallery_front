@@ -146,6 +146,17 @@
   height: 28px;
 }
 
+.iconLink svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 1.5;
+}
+
+.mobileMenuButton svg {
+  width: 28px;
+  height: 28px;
+}
+
 .desktopOnly {
   display: flex;
   align-items: center;
@@ -230,6 +241,10 @@
     gap: 10px;
   }
   .iconLink img {
+    width: 18px;
+    height: 18px;
+  }
+  .iconLink svg {
     width: 18px;
     height: 18px;
   }
