@@ -18,12 +18,12 @@ function BannerContent({ posts }: BannerProps) {
             <div className={styles.imageWrapper}>
               <Image
                 className={styles.image}
-                src={post?.image || ""}
+                src={post.image || ""}
                 fill
                 sizes="360px"
                 priority
                 quality={90}
-                alt={post?.title || ""}
+                alt={post.title || ""}
               />
             </div>
           </Link>
