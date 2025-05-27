@@ -12,7 +12,7 @@ const pretendard = localFont({
 })
 
 export const metadata: Metadata = {
-  title: "모아통: 당신의 추억을 공유해요!",
+  title: "모두의 갤러리: 당신의 추억을 공유해요!",
   description: "당신의 사진을 모두에게 공유해보세요!!",
   icons: {
     icon: "/mainfavicon.svg"
