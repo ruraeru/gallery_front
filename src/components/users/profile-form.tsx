@@ -32,8 +32,8 @@ export default function ProfileForm({ user }: { user: UserInfoType }) {
             }
             return;
         }
-        if (file.size > 4 * 1024 * 1024) {
-            alert("파일 크기는 4MB를 초과할 수 없습니다.");
+        if (file.size > 10 * 1024 * 1024) {
+            alert("파일 크기는 10MB를 초과할 수 없습니다.");
             if (fileInputRef.current) {
                 fileInputRef.current.value = "";
             }

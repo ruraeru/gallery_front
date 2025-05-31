@@ -14,16 +14,20 @@ export default function AddProduct() {
         if (!files) return;
         const file = files[0];
 
-        const allowedFileTypes = ["png", "jpg", "jpeg", "HEIC"];
-        if (allowedFileTypes.indexOf(file.type.split("/")[1]) === -1) {
-            alert("file upload is only .png, .jpg, .jpeg .HEIC");
+        const allowedFileTypes = ["image/png", "image/jpeg", "image/webp", "image/heic"];
+        if (!allowedFileTypes.includes(file.type)) {
+            alert("업로드 가능한 파일 형식은 PNG, JPG, JPEG, WEBP, HEIC 입니다.");
             return;
         }
-        if (file.size > 4000000) {
-            alert("file is very big!!!!");
+        if (file.size > 10 * 1024 * 1024) {
+            alert("파일 크기는 10MB를 초과할 수 없습니다.");
             return;
         }
-        setPreview(URL.createObjectURL(file));
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setPreview(reader.result as string);
+        };
+        reader.readAsDataURL(file);
     };
 
     const [state, action] = useActionState(uploadPost, null);
@@ -64,7 +68,7 @@ export default function AddProduct() {
                     type="file"
                     id="photo"
                     name="photo"
-                    accept="image/*"
+                    accept="image/png, image/jpeg, image/webp, image/heic"
                     onChange={onImageChange}
                     className={styles.hiddenInput}
                 />
