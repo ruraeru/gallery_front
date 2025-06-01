@@ -1,0 +1,14 @@
+.infoBar {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 8px;
+}

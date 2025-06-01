@@ -1,15 +1,23 @@
+import { HeartIcon } from "@heroicons/react/24/solid";
+import { ChartBarIcon } from "@heroicons/react/24/solid";
+import styles from "@/styles/PostInfoBar.module.css";
+
 interface InfoProps {
     views: number;
     likes: number;
-    comment: number;
 }
 
 export default function InfoBar(props: InfoProps) {
     return (
-        <div>
-            <p>댓글 : {props.comment}</p>
-            <p>좋아요 : {props.likes}</p>
-            <p>조회수 : {props.views}</p>
+        <div className={styles.infoBar}>
+            <div className={styles.infoItem}>
+                <HeartIcon width={16} />
+                <span>{props.likes}</span>
+            </div>
+            <div className={styles.infoItem}>
+                <ChartBarIcon width={16} />
+                <span>{props.views}</span>
+            </div>
         </div>
-    )
+    );
 }

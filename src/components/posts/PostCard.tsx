@@ -1,6 +1,5 @@
 "use client";
 
-import { Post } from "@/service/postService";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "@/styles/PostCard.module.css";
@@ -37,10 +36,14 @@ function PostCardContent({ post }: { post: PostCardProps }) {
           />
         </div>
       </Link>
-      <p className={styles.title}>{post?.title}</p>
-      <p className={styles.description}>{post?.description}</p>
-      <Link href={`/users/${post?.userId}`} className={styles.userLink}>@{post?.userId}</Link>
-      <InfoBar views={post.views} likes={post._count.likes} comment={post._count.comments} />
+      <div className={styles.infoContainer}>
+        <div>
+          <p className={styles.title}>{post?.title}</p>
+          <p className={styles.description}>{post?.description}</p>
+          <Link href={`/users/${post?.userId}`} className={styles.userLink}>@{post?.userId}</Link>
+        </div>
+        <InfoBar views={post.views} likes={post._count.likes} />
+      </div>
     </article>
   );
 }
