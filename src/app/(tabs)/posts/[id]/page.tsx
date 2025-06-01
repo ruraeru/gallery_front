@@ -1,11 +1,11 @@
 import Detail from "@/components/imageDtail";
 import LikeButton from "@/components/posts/like-button";
 import { getCachedPostByID, getLikeStatus } from "@/service/postService";
-import { ChartBarIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import styles from "./ProductDetail.module.css";
+import styles from "@/styles/PostDetail.module.css";
 import Link from "next/link";
+import { ChartBarIcon } from "@heroicons/react/24/outline";
 
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
@@ -25,7 +25,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                         src={post.image || ""}
                         fill
                         priority
-                        sizes="(max-width: 768px) 100vw, 195px"
+                        sizes="(max-width: 768px) 300px, 420px"
                         quality={90}
                         alt={post.title}
                     />

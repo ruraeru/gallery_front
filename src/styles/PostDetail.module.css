@@ -78,18 +78,31 @@
 
 @media screen and (max-width: 768px) {
   .imageWrapper {
-    width: 200px;
-    height: 300px;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2/3;
+    max-width: 300px;
+  }
+
+  .image {
+    position: relative !important;
+    height: 100% !important;
+    width: 100% !important;
   }
 
   .descriptionOverlay {
-    font-size: 14px;
-    padding: 15px;
+    font-size: 17px;
+    padding: 18px;
   }
-  .mainTitle,
+  .mainTitle {
+    font-size: 2.5rem;
+  }
+  .descriptionTitle {
+    font-size: 1.3rem;
+  }
   .photoBy,
   .userName {
-    font-size: 20px;
+    font-size: 1.5rem;
   }
 }
 
