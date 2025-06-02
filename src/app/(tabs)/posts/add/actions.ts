@@ -9,12 +9,16 @@ import path from "path";
 import { z } from "zod";
 
 const postSchema = z.object({
-  title: z.string({
-    required_error: "제목을 입력해주세요.",
-  }),
-  description: z.string({
-    required_error: "사진의 설명을 입력해주세요.",
-  }),
+  title: z
+    .string({
+      required_error: "제목을 입력해주세요.",
+    })
+    .min(5, "사진의 제목을 5자 이상 입력해주세요."),
+  description: z
+    .string({
+      required_error: "사진의 설명을 입력해주세요.",
+    })
+    .min(10, "사진의 설명을 10자 이상 입력해주세요."),
   photo: z.string({
     required_error: "사진을 넣어주세요",
   }),
