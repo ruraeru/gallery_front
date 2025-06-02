@@ -30,7 +30,7 @@ export const signUpFormSchema = z
       .string()
       .toLowerCase()
       .trim()
-      .regex(userIdRegex)
+      .regex(userIdRegex, "아이디는 숫자와 영어만 가능합니다.")
       .refine(exsistUserId, "admin not allowed"),
     username: z.string().toLowerCase().trim().min(1).max(4),
     password: z.string().min(8),

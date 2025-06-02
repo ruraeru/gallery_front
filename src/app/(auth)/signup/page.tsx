@@ -21,6 +21,7 @@ export default function Page() {
               type="text"
               placeholder="아이디를 입력해주세요."
               errors={state?.fieldErrors?.user_id}
+              required
             />
             <Input
               label="이름"
@@ -28,6 +29,7 @@ export default function Page() {
               type="text"
               placeholder="이름을 입력해주세요."
               errors={state?.fieldErrors?.username}
+              required
             />
           </div>
           <div>
@@ -37,6 +39,7 @@ export default function Page() {
               type="password"
               placeholder="비밀번호를 입력해주세요."
               errors={state?.fieldErrors?.password}
+              required
             />
             <Input
               label="패스워드 확인"
@@ -44,6 +47,7 @@ export default function Page() {
               type="password"
               placeholder="비밀번호를 다시 한번 입력해주세요."
               errors={state?.fieldErrors?.confirmPassword}
+              required
             />
           </div>
           <Button text="회원가입" />
