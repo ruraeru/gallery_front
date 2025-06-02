@@ -1,9 +1,73 @@
-.footer {
-  height: 80px;
-  background-color: gray;
-  width: 100%;
+.footerContainer {
+  background-color: #1f2937;
+  color: #d1d5db;
+  padding: 40px 20px;
+  text-align: center;
+  border-top: 1px solid #374151;
+  margin-top: auto;
+}
+
+.footerContent {
+  max-width: 800px;
+  margin: 0 auto;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.personalInfo p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+  color: #9ca3af;
+}
+
+.personalInfo strong {
+  color: #e5e7eb;
+  font-size: 1.1rem;
+}
+
+.socialLinks {
+  display: flex;
   justify-content: center;
-  color: white;
+  align-items: center;
+  gap: 25px;
+}
+
+.socialLink {
+  color: #9ca3af;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+}
+
+.socialLink:hover {
+  color: #60a5fa;
+}
+
+.socialLink:hover .icon {
+  color: #60a5fa;
+}
+
+.icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #9ca3af;
+  transition: color 0.2s ease-in-out;
+}
+
+.socialText {
+  display: none;
+}
+@media (min-width: 768px) {
+  .socialText {
+    display: inline;
+  }
+}
+
+.copyright {
+  font-size: 0.8rem;
+  color: #6b7280;
 }
