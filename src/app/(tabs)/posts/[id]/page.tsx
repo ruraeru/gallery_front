@@ -5,7 +5,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import styles from "@/styles/PostDetail.module.css";
 import Link from "next/link";
-import { ChartBarIcon } from "@heroicons/react/24/outline";
+import { ChartBarIcon } from "@heroicons/react/24/solid";
 
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
@@ -15,6 +15,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
         return notFound();
     }
     const { isLiked } = await getLikeStatus(post.id);
+
     return (
         <Detail url={post.image}>
             <h1 className={styles.mainTitle}>{post.title}</h1>
@@ -38,14 +39,14 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                     )}
                 </div>
                 <div className={styles.infoRow}>
-                    <div className={styles.likeSection}>
+                    <div className={styles.infoSection}>
                         <LikeButton postId={post.id} isLiked={isLiked} />
                         <span>좋아요 : {post._count.likes}</span>
                     </div>
-                    {/* <div className={styles.viewSection}>
+                    <div className={styles.infoSection}>
                         <ChartBarIcon width={32} />
                         <span>조회수 : {post.views}</span>
-                    </div> */}
+                    </div>
                 </div>
             </div>
             <div className={styles.photoBy}>
