@@ -55,6 +55,6 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                     <i>{post.userId}</i>
                 </Link>
             </div>
-        </Detail >
+        </Detail>
     )
 }
