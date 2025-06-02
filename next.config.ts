@@ -1,7 +1,6 @@
 import { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: ["fedev.kro.kr", "frontdev.kro.kr"],
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -9,9 +8,6 @@ const nextConfig: NextConfig = {
     serverActions: {
       bodySizeLimit: "10mb",
     },
-  },
-  compiler: {
-    emotion: true,
   },
 };
 

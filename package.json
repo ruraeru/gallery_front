@@ -11,10 +11,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@emotion/styled": "^11.14.0",
     "@heroicons/react": "^2.2.0",
     "@prisma/client": "^6.7.0",
-    "axios": "^1.9.0",
     "iron-session": "^8.0.4",
     "next": "15.3.1",
     "prisma": "^6.7.0",
@@ -23,7 +21,6 @@
     "zod": "^3.24.3"
   },
   "devDependencies": {
-    "@emotion/react": "^11.14.0",
     "@eslint/eslintrc": "^3",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
