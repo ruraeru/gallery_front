@@ -16,7 +16,7 @@ export async function middleware(req: NextRequest) {
   const exists = publicOnlyUrls[req.nextUrl.pathname];
   if (!session.id) {
     if (!exists) {
-      return NextResponse.redirect(new URL("/", req.url));
+      return NextResponse.redirect(new URL("/signup", req.url));
     }
   }
 }
