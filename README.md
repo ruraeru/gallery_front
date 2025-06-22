@@ -117,10 +117,6 @@ export const config = {
    npm install
    ```
 
-```
-
-```
-
 2. 개발 서버 실행
 
    ```bash
@@ -141,8 +137,4 @@ export const config = {
 DATABASE_URL = "mysql://(계정명):(비밀번호)@(호스트):(포트)/(데이터베이스)";
 
 COOKIE_PASSWORD = "(랜덤스트링)";
-```
-
-```
-
 ```
