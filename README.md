@@ -1,19 +1,76 @@
 # Gallery Front
 
+Next.js 기반의 사진/이미지 갤러리 웹 애플리케이션입니다. 사용자는 이미지를 업로드하고, 게시글을 작성하며, 좋아요 및 조회수 기능을 통해 상호작용할 수 있습니다. 회원가입, 로그인, 마이페이지, 관리자 기능 등 다양한 기능을 제공합니다.
+
 ### 화면 구성
 
-|                    메인                    |
-| :----------------------------------------: |
-| <img src="./images/main.png" width="450"/> |
-|                  메인화면                  |
+|                    메인                     |
+| :-----------------------------------------: |
+| <img src="./images/main.png" width="450"/>  |
+| 상단 배너의 게시물들은 좋아요 순으로 정렬됨 |
 
-###
+|                 모바일 메인                  |
+| :------------------------------------------: |
+| <img src="./images/main_m.png" width="450"/> |
+|       상단 헤더가 햄버거 메뉴로 변경됨       |
 
-![게시물](./images/post_detail.png)
+|                                        게시물                                        |
+| :----------------------------------------------------------------------------------: |
+|                  <img src="./images/post_detail.png" width="450"/>                   |
+| 게시물 상세 페이지 게시물에 좋아요를 눌러 상호작용 가능하고 조회수를 확인할 수 있다. |
 
----
+|                   게시물 업로드                   |
+| :-----------------------------------------------: |
+| <img src="./images/upload_post.png" width="450"/> |
+|       zod를 통해 입력폼의 유효성 검사를 함        |
 
-Next.js 기반의 사진/이미지 갤러리 웹 애플리케이션입니다. 사용자는 이미지를 업로드하고, 게시글을 작성하며, 좋아요 및 조회수 기능을 통해 상호작용할 수 있습니다. 회원가입, 로그인, 마이페이지, 관리자 기능 등 다양한 기능을 제공합니다.
+|                                유저 프로필                                 |
+| :------------------------------------------------------------------------: |
+|                <img src="./images/profile.png" width="450">                |
+| 본인의 프로필이라면 프로필 수정 버튼과 승인 대기 중인 게시물 영역이 보여짐 |
+
+|                    프로필 수정                    |
+| :-----------------------------------------------: |
+| <img src="./images/edit_profile.png" width="450"> |
+|  유저의 아바타, 이름, 비밀번호를 수정할 수 있다.  |
+
+|                                    관리자 페이지                                    |
+| :---------------------------------------------------------------------------------: |
+|                   <img src="./images/admin_page.png" width="450">                   |
+| 유저가 업로드한 게시물에 대한 검열을 통해 조금 더 청결하게 플랫폼을 관리할 수 있다. |
+
+## 미들웨어
+
+```typescript
+import { NextRequest, NextResponse } from "next/server";
+import getSession from "./lib/session";
+
+interface Routes {
+  [key: string]: boolean;
+}
+
+const publicOnlyUrls: Routes = {
+  "/": true,
+  "/login": true,
+  "/signup": true,
+};
+
+export async function middleware(req: NextRequest) {
+  const session = await getSession();
+  const exists = publicOnlyUrls[req.nextUrl.pathname];
+  if (!session.id) {
+    if (!exists) {
+      return NextResponse.redirect(new URL("/signup", req.url));
+    }
+  }
+}
+
+export const config = {
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)"],
+};
+```
+
+`미들웨어`를 통해 로그인 여부를 확인하고 허용된 경로에만 접근할 수 있게 함.
 
 ## 주요 기능
 
@@ -28,19 +85,21 @@ Next.js 기반의 사진/이미지 갤러리 웹 애플리케이션입니다. �
 ## 폴더 구조
 
 ```
+
 src/
-  app/
-    (tabs)/
-      (main)/         # 메인(홈) 페이지
-      posts/          # 게시글 목록, 상세, 작성
-      users/          # 유저 프로필, 수정
-      admin/          # 관리자 페이지
-    (auth)/           # 로그인, 회원가입
-  components/         # UI 컴포넌트
-  service/            # API/비즈니스 로직
-  styles/             # CSS 모듈
-  lib/                # 유틸리티, 세션 등
-  types/              # 타입 정의
+app/
+(tabs)/
+(main)/ # 메인(홈) 페이지
+posts/ # 게시글 목록, 상세, 작성
+users/ # 유저 프로필, 수정
+admin/ # 관리자 페이지
+(auth)/ # 로그인, 회원가입
+components/ # UI 컴포넌트
+service/ # API/비즈니스 로직
+styles/ # CSS 모듈
+lib/ # 유틸리티, 세션 등
+types/ # 타입 정의
+
 ```
 
 ## 기술 스택
@@ -59,6 +118,10 @@ src/
    ```bash
    npm install
    ```
+
+```
+
+```
 
 2. 개발 서버 실행
 
@@ -80,4 +143,8 @@ src/
 DATABASE_URL = "mysql://(계정명):(비밀번호)@(호스트):(포트)/(데이터베이스)";
 
 COOKIE_PASSWORD = "(랜덤스트링)";
+```
+
+```
+
 ```
