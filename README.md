@@ -85,21 +85,19 @@ export const config = {
 ## 폴더 구조
 
 ```
-
-src/
-app/
-(tabs)/
-(main)/ # 메인(홈) 페이지
-posts/ # 게시글 목록, 상세, 작성
-users/ # 유저 프로필, 수정
-admin/ # 관리자 페이지
-(auth)/ # 로그인, 회원가입
-components/ # UI 컴포넌트
-service/ # API/비즈니스 로직
-styles/ # CSS 모듈
-lib/ # 유틸리티, 세션 등
-types/ # 타입 정의
-
+ src/
+       app/
+         (tabs)/
+           (main)/      # 메인(홈) 페이지
+           posts/       # 게시글 목록, 상세, 작성
+           users/       # 유저 프로필, 수정
+           admin/       # 관리자 페이지
+         (auth)/        # 로그인, 회원가입
+       components/      # UI 컴포넌트
+       service/         # API/비즈니스 로직
+       styles/          # CSS 모듈
+       lib/             # 유틸리티, 세션 등
+       types/           # 타입 정의
 ```
 
 ## 기술 스택
